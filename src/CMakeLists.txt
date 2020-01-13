@@ -1,3 +1,5 @@
+add_subdirectory(utility)
+
 add_executable(PE-Packer "")
 
 set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include")
@@ -8,3 +10,5 @@ target_sources(PE-Packer
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/main.c
 )
+
+target_link_libraries(PE-Packer utility)
