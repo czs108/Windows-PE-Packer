@@ -12,6 +12,9 @@ target_sources(PE-Packer
 
         ${CMAKE_CURRENT_LIST_DIR}/extra_data.c
         ${HEADER_PATH}/extra_data.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/image.c
+        ${HEADER_PATH}/image.h
 )
 
 target_link_libraries(PE-Packer utility)
