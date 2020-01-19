@@ -1,4 +1,5 @@
 add_subdirectory(utility)
+add_subdirectory(shell)
 
 add_executable(PE-Packer "")
 
@@ -24,3 +25,4 @@ target_sources(PE-Packer
 )
 
 target_link_libraries(PE-Packer utility)
+target_link_libraries(PE-Packer shell)
