@@ -8,11 +8,20 @@ target_include_directories(shell PUBLIC ${HEADER_PATH})
 
 target_sources(shell
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/entry_export.h
     PUBLIC
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-
+    message(FATAL_ERROR "[!] Must configuring on/for x86 platform")
 else()
+    target_sources(shell
+        PRIVATE
+            ${CMAKE_CURRENT_LIST_DIR}/entry_x86.asm
+            ${CMAKE_CURRENT_LIST_DIR}/include_x86/windows.inc
+            ${CMAKE_CURRENT_LIST_DIR}/include_x86/winextra.inc
+    )
 
+    set_source_files_properties(entry_x86.asm PROPERTIES COMPILE_FLAGS "/c /coff")
+    set_source_files_properties(entry_x86.asm PROPERTIES LINKER_FLAGS "/SAFESEH:NO")
 endif()
