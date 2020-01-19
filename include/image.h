@@ -80,12 +80,12 @@ void FreePeImage(
  * @public @memberof _PE_IMAGE_INFO
  * 
  * @param image_info    The PE image.
- * @param file_name     The name of the new file.
+ * @param file          The file.
  * @return `true` if the method succeeded, otherwise `false`.
  */
 bool WriteImageToFile(
     const PE_IMAGE_INFO *const image_info,
-    const TCHAR *const file_name);
+    const HANDLE file);
 
 
 /**

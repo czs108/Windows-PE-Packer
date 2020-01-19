@@ -102,22 +102,14 @@ _Exit:
 
 bool WriteImageToFile(
     const PE_IMAGE_INFO *const image_info,
-    const TCHAR *const file_name)
+    const HANDLE file)
 {
     assert(image_info != NULL);
-    assert(file_name != NULL);
+    assert(file != INVALID_HANDLE_VALUE);
 
     bool success = false;
-    HANDLE file = CreateFile(file_name, GENERIC_WRITE, FILE_SHARE_READ,
-        NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (file == INVALID_HANDLE_VALUE)
-    {
-        SetLastErrorCode();
-        goto _Exit;
-    }
 
     // save the PE headers
-    const DWORD file_align = image_info->nt_header->OptionalHeader.FileAlignment;
     const DWORD header_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     if (WriteAllToFile(file, image_info->image_base, header_size) == false)
     {
@@ -125,7 +117,6 @@ bool WriteImageToFile(
     }
 
     // save the data of all sections
-    const DWORD alignment = image_info->nt_header->OptionalHeader.FileAlignment;
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     const IMAGE_SECTION_HEADER *const section_header = image_info->section_header;
     for (WORD i = 0; i != section_num; ++i)
@@ -150,12 +141,6 @@ bool WriteImageToFile(
     success = true;
 
 _Exit:
-    if (file != INVALID_HANDLE_VALUE)
-    {
-        CloseHandle(file);
-        file = INVALID_HANDLE_VALUE;
-    }
-
     return success;
 }
 
