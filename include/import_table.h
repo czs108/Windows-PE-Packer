@@ -8,6 +8,8 @@
  * 
  * @par GitHub
  * https://github.com/czs108/
+ * 
+ * @see @ref new-import-table
  */
 
 #pragma once
@@ -42,6 +44,8 @@ DWORD CalcNewImpTableSize(
  * Set this to `NULL` to get the required size.
  * 
  * @return The required size for the new import table.
+ * 
+ * @see @ref new-import-table
  */
 DWORD TransformImpTable(
     const PE_IMAGE_INFO *const image_info,

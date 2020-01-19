@@ -7,6 +7,8 @@
  * 
  * @par GitHub
  * https://github.com/czs108/
+ * 
+ * @see @ref entry-code-of-shell
  */
 
 #pragma once
@@ -39,6 +41,8 @@ DWORD CalcShellSize(
  * @param encry_info            The encryption information of sections.
  * @param encry_count           The count of encryption information.
  * @return `true` if the method succeeds, otherwise `false`.
+ * 
+ * @see @ref entry-code-of-shell
  */
 bool InstallShell(
     const PE_IMAGE_INFO *const image_info,
