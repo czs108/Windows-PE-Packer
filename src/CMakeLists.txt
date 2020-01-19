@@ -5,6 +5,8 @@ add_executable(PE-Packer "")
 
 set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include")
 
+add_definitions(-DUNICODE -D_UNICODE)
+
 target_include_directories(PE-Packer PRIVATE ${HEADER_PATH})
 
 target_sources(PE-Packer
