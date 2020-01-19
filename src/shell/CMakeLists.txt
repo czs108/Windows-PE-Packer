@@ -8,8 +8,10 @@ target_include_directories(shell PUBLIC ${HEADER_PATH})
 
 target_sources(shell
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/install_shell.c
         ${CMAKE_CURRENT_LIST_DIR}/entry_export.h
     PUBLIC
+        ${HEADER_PATH}/install_shell.h
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
