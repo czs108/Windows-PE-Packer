@@ -10,10 +10,10 @@ It will do following things when packing a PE file:
 
 - Transforming the original import table.
 - Encrypting the sections.
-- Clear the section names.
+- Clearing the section names.
 - Installing the *shell-entry*.
 
-When running a packed PE file, the *shell-entry* will decrypt and load the original program as following:
+When running a packed PE file, the *shell-entry* will decrypt and load the original program as follows:
 
 - Decrypting the sections.
 - Initializing the original import table.
@@ -73,6 +73,8 @@ You can use [*Doxygen*](http://www.doxygen.nl/) to generate the document.
 Distributed under the *GNU General Public* License. See `LICENSE` for more information.
 
 ## Contact
+
+***GitHub:*** https://github.com/czs108/
 
 ***E-Mail:*** chenzs108@outlook.com
 
