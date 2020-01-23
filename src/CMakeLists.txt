@@ -3,9 +3,9 @@ add_subdirectory(shell)
 
 add_executable(PE-Packer "")
 
-set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include")
+target_compile_definitions(PE-Packer PRIVATE -D_UNICODE -DUNICODE)
 
-add_definitions(-DUNICODE -D_UNICODE)
+set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include")
 
 target_include_directories(PE-Packer PRIVATE ${HEADER_PATH})
 

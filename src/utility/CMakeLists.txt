@@ -1,5 +1,7 @@
 add_library(utility "")
 
+target_compile_definitions(utility PRIVATE -D_UNICODE -DUNICODE)
+
 set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include/utility")
 
 target_include_directories(utility PUBLIC ${HEADER_PATH})

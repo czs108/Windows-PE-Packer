@@ -171,7 +171,7 @@ _exit:
         {
             const DWORD error_code = GetLastErrorCode();
             TCHAR *error_message = FormatErrorMessage(error_code);
-            printf(" [!] ERROR: %s\r\n", error_message);
+            wprintf(L" [!] ERROR: %ls\r\n", error_message);
             FreeErrorMessage(error_message);
             error_message = NULL;
         }
