@@ -20,6 +20,34 @@ When running a packed PE file, the *shell-entry* will decrypt and load the origi
 - Relocation.
 - Calling functions in the thread-local storage (TLS) table.
 
+Before packing, using some disassembly tools can disassemble the executable file to analyze the code, such as [*IDA Pro*](https://www.hex-rays.com/products/ida/).
+
+- Disassembling the code.
+
+  ![code](docs/code.png)
+
+- Searching constant strings.
+
+  ![string](docs/string.png)
+
+- Analyzing the import table.
+
+  ![import-table](docs/import-table.png)
+
+After packing, the static analysis will be obstructed.
+
+- Disassembling the code.
+
+  ![packed-code](docs/packed-code.png)
+
+- Searching constant strings.
+
+  ![packed-string](docs/packed-string.png)
+
+- Analyzing the import table.
+
+  ![packed-import-table](docs/packed-import-table.png)
+
 ### Warning
 
 > This project is just a demo for beginners to study PE Format and Assembly Language. It still has some compatibility problems and bugs that cannot be used in practice.
