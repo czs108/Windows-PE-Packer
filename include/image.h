@@ -69,7 +69,7 @@ bool LoadPeImage(
  * 
  * @public @memberof _PE_IMAGE_INFO
  * 
- * @param[in, out] image_info   The PE image.
+ * @param image_info    The PE image.
  * 
  * @note The destructor of `_PE_IMAGE_INFO` structure.
  */

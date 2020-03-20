@@ -14,6 +14,7 @@
 
 #include <assert.h>
 
+
 bool WriteExtraDataToFile(
     const EXTRA_DATA_VIEW *const data,
     const HANDLE file)

@@ -52,7 +52,7 @@ bool WriteAllToFile(
  * @public @memberof _FILE_VIEW
  * 
  * @param file              The file.
- * @param[out] file_view    The read-only view
+ * @param[out] file_view    The read-only view.
  * @return `true` if the method succeeds, otherwise `false`.
  * 
  * @note The constructor of `_FILE_VIEW` structure.
