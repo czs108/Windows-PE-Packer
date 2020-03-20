@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
         GetCommandLineW(), &arg_size);
     if (arg_size < 3)
     {
+        wprintf(L" [!] Usage: PE-Packer <input-file> <output-file>\r\n");
         return EXIT_SUCCESS;
     }
 
@@ -80,6 +81,12 @@ int main(int argc, char *argv[])
         &image_info, &extra_data) != true)
     {
         api_error = true;
+        goto _exit;
+    }
+
+    if (image_info.is_dll)
+    {
+        wprintf(L" [!] ERROR: The program can not process a DLL file.\r\n");
         goto _exit;
     }
 

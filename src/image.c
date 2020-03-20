@@ -59,6 +59,8 @@ bool LoadPeImage(
     image_info->nt_header = (IMAGE_NT_HEADERS*)(image_info->image_base + dos_header_size);
     image_info->section_header = (IMAGE_SECTION_HEADER*)((BYTE*)image_info->nt_header + nt_header_size);
 
+    image_info->is_dll = image_info->nt_header->FileHeader.Characteristics & IMAGE_FILE_DLL;
+
     // map the section data to memory
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     const IMAGE_SECTION_HEADER *const section_header = (IMAGE_SECTION_HEADER*)
