@@ -24,22 +24,22 @@ MAX_ENCRY_SECTION_COUNT     equ     040h
 ; ----- The exported data, used to relocation and data storage -----
 
 ; The beginning of the shell template.
-public shell_begin
+public shell_begin_lbl
 
 
 ; The beginning and the end of the import table template of the shell itself.
-public imp_table_begin
-public imp_table_end
+public imp_table_begin_lbl
+public imp_table_end_lbl
 
 
 ; The beginning and the end of the boot segment template.
-public boot_seg_begin
-public boot_seg_end
+public boot_seg_begin_lbl
+public boot_seg_end_lbl
 
 
 ; The beginning and the end of the load segment template.
-public load_seg_begin
-public load_seg_end
+public load_seg_begin_lbl
+public load_seg_end_lbl
 
 
 ; The encryption information of the load segment.
@@ -117,24 +117,24 @@ GetSectionHeader    proto   module: dword
 assume fs: nothing
 
 .code
-shell_begin         label   dword
+shell_begin_lbl     label   dword
 
 ; ------------------------ Boot Segment ------------------------
-boot_seg_begin      label   dword
+boot_seg_begin_lbl  label   dword
     pushad
     call    _boot
 
     ; ------------------------ Import Table ------------------------
-    imp_table_begin     label   dword
+    imp_table_begin_lbl     label   dword
 
         ; all relative virtual addresses are relative to the beginning of the import table,
         ; the adjustment will be done when installing the shell
-        import_table        IMAGE_IMPORT_DESCRIPTOR     <<first_thunk - imp_table_begin>, 0, 0, dll_name - imp_table_begin, first_thunk - imp_table_begin>
+        import_table        IMAGE_IMPORT_DESCRIPTOR     <<first_thunk - imp_table_begin_lbl>, 0, 0, dll_name - imp_table_begin_lbl, first_thunk - imp_table_begin_lbl>
                             IMAGE_IMPORT_DESCRIPTOR     <<0>, 0, 0, 0, 0>
 
-        first_thunk         IMAGE_THUNK_DATA            <<first_func_name - imp_table_begin>>
-        second_thunk        IMAGE_THUNK_DATA            <<second_func_name - imp_table_begin>>
-        third_thunk         IMAGE_THUNK_DATA            <<third_func_name - imp_table_begin>>
+        first_thunk         IMAGE_THUNK_DATA            <<first_func_name - imp_table_begin_lbl>>
+        second_thunk        IMAGE_THUNK_DATA            <<second_func_name - imp_table_begin_lbl>>
+        third_thunk         IMAGE_THUNK_DATA            <<third_func_name - imp_table_begin_lbl>>
                             IMAGE_THUNK_DATA            <<0>>
 
         dll_name            db      'Kernel32.dll', 0
@@ -147,7 +147,7 @@ boot_seg_begin      label   dword
         third_func_name     dw      0
                             db      'LoadLibraryA', 0
 
-    imp_table_end       label   dword
+    imp_table_end_lbl       label   dword
     ; --------------------------------------------------------------
 
     load_seg_encry_info     SEG_ENCRY_INFO  <?>
@@ -164,38 +164,38 @@ _boot:
     ; self-relocation
     pop     ebp
     ; ebp is the base address of the boot segment
-    sub     ebp, imp_table_begin - boot_seg_begin
+    sub     ebp, imp_table_begin_lbl - boot_seg_begin_lbl
 
     ; get the address of VirtualAlloc API
-    lea     esi, [ebp + (dll_name - boot_seg_begin)]
+    lea     esi, [ebp + (dll_name - boot_seg_begin_lbl)]
     push    esi
-    call    dword ptr [ebp + (second_thunk - boot_seg_begin)]
-    lea     esi, [ebp + (virtual_alloc_name - boot_seg_begin)]
+    call    dword ptr [ebp + (second_thunk - boot_seg_begin_lbl)]
+    lea     esi, [ebp + (virtual_alloc_name - boot_seg_begin_lbl)]
     push    esi
     push    eax
-    call    dword ptr [ebp + (first_thunk - boot_seg_begin)]
-    mov     dword ptr [ebp + (virtual_alloc_addr_boot - boot_seg_begin)], eax
+    call    dword ptr [ebp + (first_thunk - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (virtual_alloc_addr_boot - boot_seg_begin_lbl)], eax
 
     ; allocate memory for the load segment
     push    PAGE_EXECUTE_READWRITE
     push    MEM_COMMIT or MEM_RESERVE
-    mov     eax, load_seg_encry_info - boot_seg_begin
+    mov     eax, load_seg_encry_info - boot_seg_begin_lbl
     add     eax, ebp
     assume  eax: ptr SEG_ENCRY_INFO
     push    [eax].seg_size
     assume  eax: nothing
     push    NULL
-    call    dword ptr [ebp + (virtual_alloc_addr_boot - boot_seg_begin)]
-    mov     dword ptr [ebp + (load_seg_base - boot_seg_begin)], eax
+    call    dword ptr [ebp + (virtual_alloc_addr_boot - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (load_seg_base - boot_seg_begin_lbl)], eax
 
     ; decrypt the load segment
-    mov     ecx, load_seg_encry_info - boot_seg_begin
+    mov     ecx, load_seg_encry_info - boot_seg_begin_lbl
     add     ecx, ebp
     assume  ecx: ptr SEG_ENCRY_INFO
     push    [ecx].seg_size
     assume  ecx: nothing
     push    eax
-    mov     ebx, load_seg_encry_info - boot_seg_begin
+    mov     ebx, load_seg_encry_info - boot_seg_begin_lbl
     add     ebx, ebp
     assume  ebx: ptr SEG_ENCRY_INFO
     mov     ebx, [ebx].seg_offset
@@ -206,11 +206,11 @@ _boot:
 
     ; format a jmp instruction to the load segment
     push    ebp     ; save the base address of the boot segment
-    mov     eax, dword ptr [ebp + (load_seg_base - boot_seg_begin)]
+    mov     eax, dword ptr [ebp + (load_seg_base - boot_seg_begin_lbl)]
     mov     edx, ebp
-    add     edx, (_jmp_load_seg - boot_seg_begin) + sizeof(BYTE) * 5
+    add     edx, (_jmp_load_seg - boot_seg_begin_lbl) + sizeof(BYTE) * 5
     sub     eax, edx
-    mov     dword ptr [ebp + (_jmp_load_seg - boot_seg_begin) + sizeof(BYTE)], eax
+    mov     dword ptr [ebp + (_jmp_load_seg - boot_seg_begin_lbl) + sizeof(BYTE)], eax
 
 _jmp_load_seg:
     ; jmp to the load segment
@@ -231,65 +231,65 @@ _jmp_load_seg:
         ret
     DecryptData endp
 
-boot_seg_end        label   dword
+boot_seg_end_lbl    label   dword
 ; --------------------------------------------------------------
 
 
 ; ------------------------ Load Segment ------------------------
-load_seg_begin      label   dword
+load_seg_begin_lbl  label   dword
     call    _next
 _next:
     ; self-relocation
     pop     ebp
     ; ebp is the base address of the load segment
-    sub     ebp, _next - load_seg_begin
+    sub     ebp, _next - load_seg_begin_lbl
     ; edx is the base address of the boot segment
     pop     edx
 
     ; copy some data of the boot segment to the load segment
     mov     ecx, 3
-    lea     esi, [edx + (first_thunk - boot_seg_begin)]
-    lea     edi, [ebp + (get_proc_address_addr - load_seg_begin)]
+    lea     esi, [edx + (first_thunk - boot_seg_begin_lbl)]
+    lea     edi, [ebp + (get_proc_address_addr - load_seg_begin_lbl)]
     cld
     rep     movsd
 
-    lea     eax, [edx + (DecryptData - boot_seg_begin)]
-    mov     dword ptr [ebp + (decrypt_data_addr - load_seg_begin)], eax
-    mov     eax, dword ptr [edx + (virtual_alloc_addr_boot - boot_seg_begin)]
-    mov     dword ptr [ebp + (virtual_alloc_addr - load_seg_begin)], eax
+    lea     eax, [edx + (DecryptData - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (decrypt_data_addr - load_seg_begin_lbl)], eax
+    mov     eax, dword ptr [edx + (virtual_alloc_addr_boot - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (virtual_alloc_addr - load_seg_begin_lbl)], eax
 
     ; get the address of VirtualProtect API
-    lea     esi, [ebp + (kernel32_name - load_seg_begin)]
+    lea     esi, [ebp + (kernel32_name - load_seg_begin_lbl)]
     push    esi
-    call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin)]
-    lea     esi, [ebp + (virtual_protect_name - load_seg_begin)]
+    call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin_lbl)]
+    lea     esi, [ebp + (virtual_protect_name - load_seg_begin_lbl)]
     push    esi
     push    eax
-    call    dword ptr [ebp + (get_proc_address_addr - load_seg_begin)]
-    mov     dword ptr [ebp + (virtual_protect_addr - load_seg_begin)], eax
+    call    dword ptr [ebp + (get_proc_address_addr - load_seg_begin_lbl)]
+    mov     dword ptr [ebp + (virtual_protect_addr - load_seg_begin_lbl)], eax
 
     ; get the actual base address of the PE image after loading
     push    NULL
-    call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin)]
-    mov     dword ptr [ebp + (module - load_seg_begin)], eax
+    call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin_lbl)]
+    mov     dword ptr [ebp + (module - load_seg_begin_lbl)], eax
 
     ; set the protection of sections
     mov     ecx, lengthof section_protections
     mov     eax, PAGE_EXECUTE_READWRITE
-    lea     edi, [ebp + (section_protections - load_seg_begin)]
+    lea     edi, [ebp + (section_protections - load_seg_begin_lbl)]
     cld
     rep     stosd
 
-    lea     esi, [ebp + (section_protections - load_seg_begin)]
-    lea     edi, [ebp + (section_protections - load_seg_begin)]
+    lea     esi, [ebp + (section_protections - load_seg_begin_lbl)]
+    lea     edi, [ebp + (section_protections - load_seg_begin_lbl)]
     push    edi
     push    esi
-    push    dword ptr [ebp + (module - load_seg_begin)]
-    push    dword ptr [ebp + (virtual_protect_addr - load_seg_begin)]
+    push    dword ptr [ebp + (module - load_seg_begin_lbl)]
+    push    dword ptr [ebp + (virtual_protect_addr - load_seg_begin_lbl)]
     call    SetSectionProtect
 
     ; decrypt sections
-    mov     edx, origin_pe_info - load_seg_begin
+    mov     edx, origin_pe_info - load_seg_begin_lbl
     add     edx, ebp
     assume  edx: ptr ORIGIN_PE_INFO
     lea     edx, [edx].section_encry_info
@@ -297,7 +297,7 @@ _next:
     mov     eax, [edx].sec_rva
     .while  eax != NULL
         ; get the virtual address
-        mov     esi, dword ptr [ebp + (module - load_seg_begin)]
+        mov     esi, dword ptr [ebp + (module - load_seg_begin_lbl)]
         add     esi, eax
         mov     edi, esi
         ; get the size
@@ -305,14 +305,14 @@ _next:
         push    ecx
         push    edi
         push    esi
-        call    dword ptr [ebp + (decrypt_data_addr - load_seg_begin)]
+        call    dword ptr [ebp + (decrypt_data_addr - load_seg_begin_lbl)]
         add     edx, sizeof(SECTION_ENCRY_INFO)
         mov     eax, [edx].sec_rva
     .endw
     assume  edx: nothing
 
     ; initialize the original import table
-    mov     esi, origin_pe_info - load_seg_begin
+    mov     esi, origin_pe_info - load_seg_begin_lbl
     add     esi, ebp
     assume  esi: ptr ORIGIN_PE_INFO
     mov     esi, [esi].imp_table_offset
@@ -321,15 +321,15 @@ _next:
     mov     edi, [esi]
     ; the FirstThunk
     .while  edi != NULL
-        add     edi, dword ptr [ebp + (module - load_seg_begin)]
+        add     edi, dword ptr [ebp + (module - load_seg_begin_lbl)]
         ; the DLL name
         add     esi, sizeof(DWORD) + sizeof(BYTE)
         ; load the DLL
         push    esi
-        call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin)]
+        call    dword ptr [ebp + (get_module_handle_addr - load_seg_begin_lbl)]
         .if     eax == NULL
             push    esi
-            call    dword ptr [ebp + (load_library_addr - load_seg_begin)]
+            call    dword ptr [ebp + (load_library_addr - load_seg_begin_lbl)]
         .endif
         mov     edx, eax
         movzx   ecx, byte ptr [esi - sizeof(BYTE)]
@@ -357,7 +357,7 @@ _next:
             .endif
             push    edx
             ; get the address of the function
-            call    dword ptr [ebp + (get_proc_address_addr - load_seg_begin)]
+            call    dword ptr [ebp + (get_proc_address_addr - load_seg_begin_lbl)]
             ; save the address to the import address table (IAT)
             mov     dword ptr [edi], eax
             add     edi, sizeof(DWORD)
@@ -369,15 +369,15 @@ _next:
     .endw
 
     ; relocation
-    mov     edx, origin_pe_info - load_seg_begin
+    mov     edx, origin_pe_info - load_seg_begin_lbl
     add     edx, ebp
     assume  edx: ptr ORIGIN_PE_INFO
     ; edx is the default base address of the PE image
     mov     edx, [edx].image_base
     assume  edx: ptr nothing
-    mov     ebx, dword ptr [ebp + (module - load_seg_begin)]
+    mov     ebx, dword ptr [ebp + (module - load_seg_begin_lbl)]
     .if     ebx != edx
-        mov     esi, origin_pe_info - load_seg_begin
+        mov     esi, origin_pe_info - load_seg_begin_lbl
         add     esi, ebp
         assume  esi: ptr ORIGIN_PE_INFO
         mov     esi, [esi].reloc_table_rva
@@ -422,12 +422,12 @@ _next:
     .endif
 
     ; call functions in the thread-local storage table
-    mov     esi, origin_pe_info - load_seg_begin
+    mov     esi, origin_pe_info - load_seg_begin_lbl
     add     esi, ebp
     assume  esi: ptr ORIGIN_PE_INFO
     mov     esi, [esi].tls_table_rva
     assume  esi: ptr nothing
-    mov     ebx, dword ptr [ebp + (module - load_seg_begin)]
+    mov     ebx, dword ptr [ebp + (module - load_seg_begin_lbl)]
     .if     esi != NULL
         add     esi, ebx
         assume  esi: ptr IMAGE_TLS_DIRECTORY
@@ -445,22 +445,22 @@ _next:
     .endif
 
     ; recover the original protection of sections
-    lea     esi, [ebp + (section_protections - load_seg_begin)]
-    lea     edi, [ebp + (section_protections - load_seg_begin)]
+    lea     esi, [ebp + (section_protections - load_seg_begin_lbl)]
+    lea     edi, [ebp + (section_protections - load_seg_begin_lbl)]
     push    edi
     push    esi
-    push    dword ptr [ebp + (module - load_seg_begin)]
-    push    dword ptr [ebp + (virtual_protect_addr - load_seg_begin)]
+    push    dword ptr [ebp + (module - load_seg_begin_lbl)]
+    push    dword ptr [ebp + (virtual_protect_addr - load_seg_begin_lbl)]
     call    SetSectionProtect
 
     ; jmp to the original entry
-    mov     eax, origin_pe_info - load_seg_begin
+    mov     eax, origin_pe_info - load_seg_begin_lbl
     add     eax, ebp
     assume  eax: ptr ORIGIN_PE_INFO
     mov     eax, [eax].entry_point
     assume  eax: ptr nothing
-    add     eax, dword ptr [ebp + (module - load_seg_begin)]
-    mov     dword ptr [ebp + (_ret_oep - load_seg_begin) + sizeof(BYTE)], eax
+    add     eax, dword ptr [ebp + (module - load_seg_begin_lbl)]
+    mov     dword ptr [ebp + (_ret_oep - load_seg_begin_lbl) + sizeof(BYTE)], eax
     popad
 
 _ret_oep:
@@ -537,7 +537,7 @@ _ret_oep:
     kernel32_name           db      'Kernel32.dll', 0
     virtual_protect_name    db      'VirtualProtect', 0
 
-load_seg_end        label   dword
+load_seg_end_lbl    label   dword
 ; --------------------------------------------------------------
 
 end

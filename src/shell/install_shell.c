@@ -214,15 +214,15 @@ BYTE *GetShellImpTable(
 {
     if (size != NULL)
     {
-        *size = (BYTE*)&imp_table_end - (BYTE*)&imp_table_begin;
+        *size = (BYTE*)&imp_table_end_lbl - (BYTE*)&imp_table_begin_lbl;
     }
 
     if (offset != NULL)
     {
-        *offset = (BYTE*)&imp_table_begin - (BYTE*)&boot_seg_begin;
+        *offset = (BYTE*)&imp_table_begin_lbl - (BYTE*)&boot_seg_begin_lbl;
     }
 
-    return (BYTE*)&imp_table_begin;
+    return (BYTE*)&imp_table_begin_lbl;
 }
 
 
@@ -296,15 +296,15 @@ BYTE *GetBootSegment(
 {
     if (size != NULL)
     {
-        *size = (BYTE*)&boot_seg_end - (BYTE*)&boot_seg_begin;
+        *size = (BYTE*)&boot_seg_end_lbl - (BYTE*)&boot_seg_begin_lbl;
     }
 
     if (offset != NULL)
     {
-        *offset = (BYTE*)&boot_seg_begin - (BYTE*)&shell_begin;
+        *offset = (BYTE*)&boot_seg_begin_lbl - (BYTE*)&shell_begin_lbl;
     }
 
-    return (BYTE*)&boot_seg_begin;
+    return (BYTE*)&boot_seg_begin_lbl;
 }
 
 
@@ -314,13 +314,13 @@ BYTE *GetLoadSegment(
 {
     if (size != NULL)
     {
-        *size = (BYTE*)&load_seg_end - (BYTE*)&load_seg_begin;
+        *size = (BYTE*)&load_seg_end_lbl - (BYTE*)&load_seg_begin_lbl;
     }
 
     if (offset != NULL)
     {
-        *offset = (BYTE*)&load_seg_begin - (BYTE*)&shell_begin;
+        *offset = (BYTE*)&load_seg_begin_lbl - (BYTE*)&shell_begin_lbl;
     }
 
-    return (BYTE*)&load_seg_begin;
+    return (BYTE*)&load_seg_begin_lbl;
 }

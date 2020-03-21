@@ -65,22 +65,22 @@ typedef struct _ORIGIN_PE_INFO
 
 
 //! The beginning of the shell template.
-extern DWORD shell_begin;
+extern DWORD shell_begin_lbl;
 
 
 //! The beginning and the end of the import table template of the shell itself.
-extern DWORD imp_table_begin;
-extern DWORD imp_table_end;
+extern DWORD imp_table_begin_lbl;
+extern DWORD imp_table_end_lbl;
 
 
 //! The beginning and the end of the boot segment template.
-extern DWORD boot_seg_begin;
-extern DWORD boot_seg_end;
+extern DWORD boot_seg_begin_lbl;
+extern DWORD boot_seg_end_lbl;
 
 
 //! The beginning and the end of the load segment template.
-extern DWORD load_seg_begin;
-extern DWORD load_seg_end;
+extern DWORD load_seg_begin_lbl;
+extern DWORD load_seg_end_lbl;
 
 
 //! The encryption information of the load segment.
