@@ -19,7 +19,7 @@
 /**
  * @brief Get the information about the import table of the shell.
  * 
- * @param[out] offset   The offset, relative to the boot segment. It's optional.
+ * @param[out] offset   The offset, relative to the shell. It's optional.
  * @param[out] size     The size. It's optional.
  * @return The beginning of the segment template.
  */
@@ -219,7 +219,9 @@ BYTE *GetShellImpTable(
 
     if (offset != NULL)
     {
-        *offset = (BYTE*)&imp_table_begin_lbl - (BYTE*)&boot_seg_begin_lbl;
+        DWORD boot_seg_offset = 0;
+        GetBootSegment(&boot_seg_offset, NULL);
+        *offset = boot_seg_offset + ((BYTE*)&imp_table_begin_lbl - (BYTE*)&boot_seg_begin_lbl);
     }
 
     return (BYTE*)&imp_table_begin_lbl;
