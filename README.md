@@ -6,7 +6,7 @@
 
 *PE-Packer* is a simple packer for Windows PE files. The new PE file after packing can obstruct the process of reverse engineering.
 
-It will do following things when packing a PE file:
+It will do the following things when packing a PE file:
 
 - Transforming the original import table.
 - Encrypting the sections.
@@ -18,7 +18,6 @@ When running a packed PE file, the *shell-entry* will decrypt and load the origi
 - Decrypting the sections.
 - Initializing the original import table.
 - Relocation.
-- Calling functions in the thread-local storage (TLS) table.
 
 Before packing, using some disassembly tools can disassemble the executable file to analyze the code, such as [*IDA Pro*](https://www.hex-rays.com/products/ida/).
 
@@ -56,7 +55,7 @@ After packing, the static analysis will be obstructed.
 
 ### Prerequisites
 
-The project must configuring on/for **Windows** and can only process **32-bit** programs now.
+The project must configure on/for **Windows** and can only process **32-bit** programs now.
 
 - Install [*MASM32*](http://www.masm32.com/).
 - Install [*MinGW-w32*](https://www.mingw-w64.org/).

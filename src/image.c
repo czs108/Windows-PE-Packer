@@ -77,6 +77,16 @@ bool LoadPeImage(
         CopyMemory(dest, src, section_header[i].SizeOfRawData);
     }
 
+    // save the thread-local storage table
+    const IMAGE_DATA_DIRECTORY *const tls_dir =
+        &nt_header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS];
+    if (tls_dir->VirtualAddress != 0 && tls_dir->Size > 0)
+    {
+        const IMAGE_TLS_DIRECTORY *const tls_table = (IMAGE_TLS_DIRECTORY*)
+            RvaToVa(image_info, tls_dir->VirtualAddress);
+        CopyMemory(&image_info->tls_table, tls_table, sizeof(IMAGE_TLS_DIRECTORY));
+    }
+
     // save the extra data
     const IMAGE_SECTION_HEADER *const last_section_header = &section_header[section_num - 1];
     const BYTE *const last_section_end = file_base

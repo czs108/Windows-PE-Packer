@@ -84,6 +84,18 @@ static ORIGIN_PE_INFO *GetOriginPeInfo(
     const BYTE *const shell_base);
 
 
+/**
+ * @brief Get the thread-local storage table in the shell.
+ * 
+ * @param shell_base    The base address of the shell.
+ * @param[out] offset   The offset, relative to the shell. It's optional.
+ * @return The thread-local storage table.
+ */
+static IMAGE_TLS_DIRECTORY *GetShellTlsTable(
+    const BYTE *const shell_base,
+    DWORD *const offset);
+
+
 bool InstallShell(
     const PE_IMAGE_INFO *const image_info,
     const BYTE *const new_imp_table,
@@ -96,6 +108,8 @@ bool InstallShell(
     assert(encry_info != NULL);
 
     IMAGE_NT_HEADERS *const nt_header = image_info->nt_header;
+    const WORD section_num = nt_header->FileHeader.NumberOfSections;
+    IMAGE_SECTION_HEADER *const shell_section_header = &image_info->section_header[section_num - 1];
 
     // calculate the size of the entire shell
     const DWORD shell_size = CalcShellSize(new_imp_table_size);
@@ -126,13 +140,25 @@ bool InstallShell(
 
     // set the value of fields used by the shell
     ORIGIN_PE_INFO *const pe_info = GetOriginPeInfo(shell_base);
+    ZeroMemory(pe_info, sizeof(ORIGIN_PE_INFO));
     pe_info->entry_point = nt_header->OptionalHeader.AddressOfEntryPoint;
     pe_info->imp_table_offset = load_seg_size;
     pe_info->reloc_table_rva = nt_header->
         OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
-    pe_info->tls_table_rva = nt_header->
-        OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress;
     pe_info->image_base = (void*)nt_header->OptionalHeader.ImageBase;
+
+    // copy the thread-local storage table
+    IMAGE_DATA_DIRECTORY *const tls_dir = &nt_header->
+        OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS];
+    if (tls_dir->VirtualAddress != 0 && tls_dir->Size > 0)
+    {
+        DWORD offset = 0;
+        IMAGE_TLS_DIRECTORY *const table = GetShellTlsTable(shell_base, &offset);
+        CopyMemory(table, &image_info->tls_table, sizeof(IMAGE_TLS_DIRECTORY));
+
+        tls_dir->VirtualAddress = shell_section_header->VirtualAddress + offset;
+        tls_dir->Size = sizeof(IMAGE_TLS_DIRECTORY);
+    }
 
     // copy the encryption information of sections
     assert(encry_count <= MAX_ENCRY_SECTION_COUNT);
@@ -150,9 +176,6 @@ bool InstallShell(
     seg_encry_info->seg_size = load_seg_size + new_imp_table_size;
 
     // adjust the import table of the shell
-    const WORD section_num = nt_header->FileHeader.NumberOfSections;
-    IMAGE_SECTION_HEADER *const shell_section_header =
-        &image_info->section_header[section_num - 1];
     AdjustShellImpTable(shell_base, shell_section_header);
 
     // install the shell to the section
@@ -185,9 +208,6 @@ bool InstallShell(
         sizeof(IMAGE_DATA_DIRECTORY));
     ZeroMemory(&nt_header->
         OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_ARCHITECTURE],
-        sizeof(IMAGE_DATA_DIRECTORY));
-    ZeroMemory(&nt_header->
-        OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS],
         sizeof(IMAGE_DATA_DIRECTORY));
     ZeroMemory(&nt_header->
         OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC],
@@ -289,6 +309,27 @@ ORIGIN_PE_INFO *GetOriginPeInfo(
     const BYTE *const seg_base = shell_base + seg_offset;
     const DWORD info_offset = (BYTE*)&origin_pe_info - seg_begin;
     return (ORIGIN_PE_INFO*)(seg_base + info_offset);
+}
+
+
+IMAGE_TLS_DIRECTORY *GetShellTlsTable(
+    const BYTE *const shell_base,
+    DWORD *const offset)
+{
+    assert(shell_base != NULL);
+
+    // relocation
+    DWORD seg_offset = 0;
+    const BYTE *const seg_begin = GetBootSegment(&seg_offset, NULL);
+    const BYTE *const seg_base = shell_base + seg_offset;
+    const DWORD info_offset = (BYTE*)&tls_table - seg_begin;
+
+    if (offset != NULL)
+    {
+        *offset = seg_offset + info_offset;
+    }
+
+    return (IMAGE_TLS_DIRECTORY*)(seg_base + info_offset);
 }
 
 

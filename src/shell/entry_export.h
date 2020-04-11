@@ -52,9 +52,6 @@ typedef struct _ORIGIN_PE_INFO
     //! The relative virtual address of the relocation table.
     DWORD reloc_table_rva;
 
-    //! The relative virtual address of the thread-local storage table.
-    DWORD tls_table_rva;
-
     //! The image base.
     VOID *image_base;
 
@@ -89,3 +86,7 @@ extern SEG_ENCRY_INFO load_seg_encry_info;
 
 //! The original PE information.
 extern ORIGIN_PE_INFO origin_pe_info;
+
+
+//! The thread-local storage table.
+extern IMAGE_TLS_DIRECTORY tls_table;

@@ -22,7 +22,7 @@
  * 2. Right click this file and open "Properties" -> "Custom Build Tool" page.
  *     - Set `Command Line` to `"ml /c /coff /Fo $(SolutionDir)$(ProjectName)\$(Configuration)\%(FileName).obj $(SolutionDir)$(ProjectName)\%(FileName).asm"`.
  *     - Set `Outputs` to `"$(SolutionDir)$(ProjectName)\$(Configuration)\%(FileName).obj"`.
- * 3. Right click project and open "Properties" -> "Linker" -> "Advanced" page.
+ * 3. Right click the project and open "Properties" -> "Linker" -> "Advanced" page.
  *     - Set `Image Has Safe Exception Handlers` to `No (/SAFESEH:NO)`.
  * 
  * @section process-of-entry-code The Process of the Entry Code
@@ -32,5 +32,4 @@
  *     1. Decrypt the sections.
  *     2. Initialize the original import table.
  *     3. Relocation.
- *     4. Call functions in the thread-local storage table.
  */

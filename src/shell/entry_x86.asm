@@ -50,6 +50,10 @@ public load_seg_encry_info
 public origin_pe_info
 
 
+; The thread-local storage table.
+public tls_table
+
+
 ; @brief The encryption information of the segment.
 SEG_ENCRY_INFO      struct
     ; The offset, relative to the shell.
@@ -76,8 +80,6 @@ ORIGIN_PE_INFO      struct
     imp_table_offset    dword   ?
     ; The relative virtual address of the relocation table.
     reloc_table_rva     dword   ?
-    ; The relative virtual address of the thread-local storage table.
-    tls_table_rva       dword   ?
     ; The image base.
     image_base          dword   ?
     ; The encryption information of sections, up to 0x40 sections and a blank structure.
@@ -151,6 +153,8 @@ boot_seg_begin_lbl  label   dword
     ; --------------------------------------------------------------
 
     load_seg_encry_info     SEG_ENCRY_INFO  <?>
+
+    tls_table               IMAGE_TLS_DIRECTORY     <?>
 
     virtual_alloc_name          db      'VirtualAlloc', 0
 
@@ -419,29 +423,6 @@ _next:
             .endw
             assume  esi: nothing
         .endif
-    .endif
-
-    ; call functions in the thread-local storage table
-    mov     esi, origin_pe_info - load_seg_begin_lbl
-    add     esi, ebp
-    assume  esi: ptr ORIGIN_PE_INFO
-    mov     esi, [esi].tls_table_rva
-    assume  esi: ptr nothing
-    mov     ebx, dword ptr [ebp + (module - load_seg_begin_lbl)]
-    .if     esi != NULL
-        add     esi, ebx
-        assume  esi: ptr IMAGE_TLS_DIRECTORY
-        mov     edi, [esi].AddressOfCallBacks
-        assume  esi: nothing
-        mov     eax, dword ptr [edi]
-        .while  eax != NULL
-            push    NULL
-            push    DLL_PROCESS_ATTACH
-            push    ebx
-            call    eax
-            add     edi, sizeof(DWORD)
-            mov     eax, dword ptr [edi]
-        .endw
     .endif
 
     ; recover the original protection of sections

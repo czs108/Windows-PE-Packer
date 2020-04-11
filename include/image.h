@@ -37,6 +37,9 @@ typedef struct _PE_IMAGE_INFO
     //! The base address of the first `IMAGE_SECTION_HEADER` structure.
     IMAGE_SECTION_HEADER *section_header;
 
+    //! The thread-local storage table.
+    IMAGE_TLS_DIRECTORY tls_table;
+
     //! If the image is a DLL.
     bool is_dll;
 
