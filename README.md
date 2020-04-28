@@ -2,7 +2,7 @@
 
 ## About The Project
 
-![test-helloworld](docs/test-helloworld.png)
+![test-helloworld](docs/screenshots/test-helloworld.png)
 
 *PE-Packer* is a simple packer for Windows PE files. The new PE file after packing can obstruct the process of reverse engineering.
 
@@ -23,29 +23,29 @@ Before packing, using some disassembly tools can disassemble the executable file
 
 - Disassembling the code.
 
-  ![code](docs/code.png)
+  ![code](docs/screenshots/code.png)
 
 - Searching constant strings.
 
-  ![string](docs/string.png)
+  ![string](docs/screenshots/string.png)
 
 - Analyzing the import table.
 
-  ![import-table](docs/import-table.png)
+  ![import-table](docs/screenshots/import-table.png)
 
 After packing, the static analysis will be obstructed.
 
 - Disassembling the code.
 
-  ![packed-code](docs/packed-code.png)
+  ![packed-code](docs/screenshots/packed-code.png)
 
 - Searching constant strings.
 
-  ![packed-string](docs/packed-string.png)
+  ![packed-string](docs/screenshots/packed-string.png)
 
 - Analyzing the import table.
 
-  ![packed-import-table](docs/packed-import-table.png)
+  ![packed-import-table](docs/screenshots/packed-import-table.png)
 
 ### Warning
 
