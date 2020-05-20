@@ -1,6 +1,6 @@
 /**
  * @file entry_shell.h
- * @brief The Doxygen page about the entry code of the shell. 
+ * @brief The Doxygen page about the entry code of the shell.
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-14

@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     wprintf(L" [*] Transform the import table.\r\n");
     const DWORD new_imp_table_size = CalcNewImpTableSize(&image_info);
     new_imp_table = (BYTE*)VirtualAlloc(NULL, new_imp_table_size,
-        MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);  
+        MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     if (new_imp_table == NULL)
     {
         SetLastErrorCode();

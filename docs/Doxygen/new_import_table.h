@@ -74,7 +74,7 @@
                                 </tr>
                             </table>
                         </td>
-                    </tr>         
+                    </tr>
                 </table>
             </td>
         </tr>
