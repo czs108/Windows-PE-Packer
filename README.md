@@ -1,5 +1,10 @@
 # PE-Packer
 
+## Languages
+
+- [English](https://github.com/czs108/PE-Packer/blob/master/README.md)
+- [简体中文](https://github.com/czs108/PE-Packer/blob/master/README-CN.md)
+
 ## About The Project
 
 ![test-helloworld](docs/screenshots/test-helloworld.png)
