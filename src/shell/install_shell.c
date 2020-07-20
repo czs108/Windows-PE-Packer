@@ -1,10 +1,10 @@
 /**
  * @file install_shell.c
  * @brief Install the shell.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-15
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -33,7 +33,7 @@ static BYTE *GetShellImpTable(
  * 
  * @param shell_base    The base address of the shell.
  * @param shell_section
- * The `IMAGE_SECTION_HEADER` structure of the section where the shell is installed.
+ * The @em IMAGE_SECTION_HEADER structure of the section where the shell is installed.
  */
 static void AdjustShellImpTable(
     BYTE *const shell_base,

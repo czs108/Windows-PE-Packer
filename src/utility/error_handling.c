@@ -1,10 +1,10 @@
 /**
  * @file error_handling.c
  * @brief Error handling.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-09
- * 
  * @par GitHub
  * https://github.com/czs108/
  * 

@@ -1,10 +1,10 @@
 /**
  * @file new_import_table.h
  * @brief The Doxygen page about the new format of the import table.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-10
- * 
  * @par GitHub
  * https://github.com/czs108/
  */

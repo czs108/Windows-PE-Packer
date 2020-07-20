@@ -1,10 +1,10 @@
 /**
  * @file entry_export.h
  * @brief The fields and structures exported by the entry shell.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-15
- * 
  * @par GitHub
  * https://github.com/czs108/
  * 
@@ -65,18 +65,21 @@ typedef struct _ORIGIN_PE_INFO
 extern DWORD shell_begin_lbl;
 
 
-//! The beginning and the end of the import table template of the shell itself.
+//! The beginning of the import table template of the shell itself.
 extern DWORD imp_table_begin_lbl;
+//! The end of the import table template of the shell itself.
 extern DWORD imp_table_end_lbl;
 
 
-//! The beginning and the end of the boot segment template.
+//! The beginning of the boot segment template.
 extern DWORD boot_seg_begin_lbl;
+//! The end of the boot segment template.
 extern DWORD boot_seg_end_lbl;
 
 
-//! The beginning and the end of the load segment template.
+//! The beginning of the load segment template.
 extern DWORD load_seg_begin_lbl;
+//! The end of the load segment template.
 extern DWORD load_seg_end_lbl;
 
 

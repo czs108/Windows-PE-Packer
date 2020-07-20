@@ -4,7 +4,6 @@
 ; @author Chen Zhenshuo (chenzs108@outlook.com)
 ; @version 1.0
 ; @date 2020-01-07
-; 
 ; @par GitHub
 ; https://github.com/czs108/
 
@@ -27,18 +26,21 @@ MAX_ENCRY_SECTION_COUNT     equ     040h
 public shell_begin_lbl
 
 
-; The beginning and the end of the import table template of the shell itself.
+; The beginning of the import table template of the shell itself.
 public imp_table_begin_lbl
+; The end of the import table template of the shell itself.
 public imp_table_end_lbl
 
 
-; The beginning and the end of the boot segment template.
+; The beginning of the boot segment template.
 public boot_seg_begin_lbl
+; The end of the boot segment template.
 public boot_seg_end_lbl
 
 
-; The beginning and the end of the load segment template.
+; The beginning of the load segment template.
 public load_seg_begin_lbl
+; The end of the load segment template.
 public load_seg_end_lbl
 
 

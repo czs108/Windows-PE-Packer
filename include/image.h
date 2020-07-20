@@ -5,7 +5,6 @@
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-07
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -31,10 +30,10 @@ typedef struct _PE_IMAGE_INFO
     //! The base address of the PE image when it is loaded in memory.
     BYTE *image_base;
 
-    //! The base address of `IMAGE_NT_HEADERS` structure.
+    //! The base address of @em IMAGE_NT_HEADERS structure.
     IMAGE_NT_HEADERS *nt_header;
 
-    //! The base address of the first `IMAGE_SECTION_HEADER` structure.
+    //! The base address of the first @em IMAGE_SECTION_HEADER structure.
     IMAGE_SECTION_HEADER *section_header;
 
     //! The thread-local storage table.
@@ -49,16 +48,14 @@ typedef struct _PE_IMAGE_INFO
 /**
  * @brief Load the PE file to memory.
  * 
- * @public @memberof _PE_IMAGE_INFO
- * 
  * @param file_base         The base address of the file content.
  * @param file_size         The size of the file.
  * @param[out] image_info   The PE image related to the file.
  * @param[out] extra_data   The extra data behind the PE image.
- * @return `true` if the method succeeded, otherwise `false`.
+ * @return @em true if the method succeeded, otherwise @em false.
  * 
- * @note The constructor of `_PE_IMAGE_INFO` structure.
- * @note The constructor of `_EXTRA_DATA_VIEW` structure.
+ * @note The constructor of @em _PE_IMAGE_INFO structure.
+ * @note The constructor of @em _EXTRA_DATA_VIEW structure.
  */
 bool LoadPeImage(
     const BYTE *const file_base,
@@ -70,11 +67,9 @@ bool LoadPeImage(
 /**
  * @brief Free the memory of the PE image.
  * 
- * @public @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
  * 
- * @note The destructor of `_PE_IMAGE_INFO` structure.
+ * @note The destructor of @em _PE_IMAGE_INFO structure.
  */
 void FreePeImage(
     const PE_IMAGE_INFO *const image_info);
@@ -83,11 +78,9 @@ void FreePeImage(
 /**
  * @brief Write the PE image to a new file.
  * 
- * @public @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
  * @param file          The file.
- * @return `true` if the method succeeded, otherwise `false`.
+ * @return @em true if the method succeeded, otherwise @em false.
  */
 bool WriteImageToFile(
     const PE_IMAGE_INFO *const image_info,
@@ -96,8 +89,6 @@ bool WriteImageToFile(
 
 /**
  * @brief Convert the relative virtual address to a virtual address.
- * 
- * @public @memberof _PE_IMAGE_INFO
  * 
  * @param image_info    The PE image.
  * @param rva           The relative virtual address.
@@ -111,10 +102,8 @@ BYTE *RvaToVa(
 /**
  * @brief Check whether the PE image is x64 or x86.
  * 
- * @public @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
- * @return `true` if the image is a x64 file, otherwise `false`.
+ * @return @em true if the image is a x64 file, otherwise @em false.
  */
 bool IsPe64(
     const PE_IMAGE_INFO *const image_info);
@@ -125,7 +114,7 @@ bool IsPe64(
  * 
  * @param value     The value to be aligned.
  * @param align     The value of alignment.
- * @return DWORD    The value after alignment.
+ * @return The value after alignment.
  */
 DWORD Align(
     const DWORD value,
@@ -136,7 +125,7 @@ DWORD Align(
  * @brief Check if the file is a PE file.
  * 
  * @param file_base The base address of the file content.
- * @return `true` if the file is a PE file, otherwise `false`.
+ * @return @em true if the file is a PE file, otherwise @em false.
  */
 bool IsPeFile(
     const BYTE *const file_base);
@@ -145,11 +134,11 @@ bool IsPeFile(
 /**
  * @brief
  * Calculate the size of PE headers,
- * including `IMAGE_DOS_HEADER`, `IMAGE_NT_HEADERS` and all `IMAGE_SECTION_HEADER` structures.
+ * including @em IMAGE_DOS_HEADER, @em IMAGE_NT_HEADERS and all @em IMAGE_SECTION_HEADER structures.
  * 
  * @param file_base             The base address of the file content.
- * @param[out] dos_header_size  The size of `IMAGE_DOS_HEADER` structure. It's optional.
- * @param[out] nt_header_size   The size of `IMAGE_NT_HEADERS` structure. It's optional.
+ * @param[out] dos_header_size  The size of @em IMAGE_DOS_HEADER structure. It's optional.
+ * @param[out] nt_header_size   The size of @em IMAGE_NT_HEADERS structure. It's optional.
  * @return The size of PE headers.
  */
 DWORD CalcHeadersSize(

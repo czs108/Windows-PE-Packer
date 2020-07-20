@@ -5,7 +5,6 @@
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-07
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -17,10 +16,10 @@
 #include <assert.h>
 
 /**
- * @brief Get the base address of `IMAGE_NT_HEADERS` structure.
+ * @brief Get the base address of @em IMAGE_NT_HEADERS structure.
  * 
  * @param file_base The base address of the file content.
- * @return The base address of `IMAGE_NT_HEADERS` structure, `NULL` if it is not a PE file.
+ * @return The base address of @em IMAGE_NT_HEADERS structure, @em NULL if it is not a PE file.
  */
 static IMAGE_NT_HEADERS *GetNtHeader(
     const BYTE *const file_base);

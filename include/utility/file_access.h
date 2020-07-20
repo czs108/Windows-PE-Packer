@@ -1,10 +1,10 @@
 /**
  * @file file_access.h
  * @brief File reading and writing.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-10
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -20,10 +20,10 @@
  */
 typedef struct _FILE_VIEW
 {
-    //! The file-mapping returned by `CreateFileMapping` API.
+    //! The file-mapping returned by @em CreateFileMapping API.
     HANDLE map;
 
-    //! The base address of the file content returned by `MapViewOfFile` API.
+    //! The base address of the file content returned by @em MapViewOfFile API.
     const BYTE* base;
 
     //! The size of the file.
@@ -38,7 +38,7 @@ typedef struct _FILE_VIEW
  * @param file  The file.
  * @param data  The base address of the data.
  * @param size  The size of the data.
- * @return `true` if the method succeeds, otherwise `false`.
+ * @return @em true if the method succeeds, otherwise @em false.
  */
 bool WriteAllToFile(
     const HANDLE file,
@@ -49,13 +49,11 @@ bool WriteAllToFile(
 /**
  * @brief Open a read-only view of the file.
  * 
- * @public @memberof _FILE_VIEW
- * 
  * @param file              The file.
  * @param[out] file_view    The read-only view.
- * @return `true` if the method succeeds, otherwise `false`.
+ * @return @em true if the method succeeds, otherwise @em false.
  * 
- * @note The constructor of `_FILE_VIEW` structure.
+ * @note The constructor of @em _FILE_VIEW structure.
  */
 bool OpenReadViewOfFile(
     const HANDLE file,
@@ -65,11 +63,9 @@ bool OpenReadViewOfFile(
 /**
  * @brief Close the view of a file.
  * 
- * @public @memberof _FILE_VIEW
- * 
  * @param file_view The view.
  * 
- * @note The destructor of `_FILE_VIEW` structure.
+ * @note The destructor of @em _FILE_VIEW structure.
  */
 void CloseViewOfFile(
     const FILE_VIEW *const file_view);
@@ -79,7 +75,7 @@ void CloseViewOfFile(
  * @brief Check if the size of the file is smaller than 2GB.
  * 
  * @param file  The file.
- * @return `true` if the size of the file is smaller than 2GB, otherwise `false`.
+ * @return @em true if the size of the file is smaller than 2GB, otherwise @em false.
  * 
  * @warning The program can only process files smaller than 2GB.
  */

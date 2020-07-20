@@ -1,10 +1,10 @@
 /**
  * @file error_handling.h
  * @brief Error handling.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-09
- * 
  * @par GitHub
  * https://github.com/czs108/
  * 
@@ -24,9 +24,7 @@ DWORD GetLastErrorCode();
 
 
 /**
- * @brief Set the last error code got from `GetLastError` API.
- * 
- * @param error_code    The error code.
+ * @brief Set the last error code got from @em GetLastError API.
  * 
  * @warning This method can only and must be called after a direct Windows API call failed.
  * 
@@ -38,7 +36,7 @@ void SetLastErrorCode();
 
 
 /**
- * @brief Reset the last error code to `ERROR_SUCCESS`.
+ * @brief Reset the last error code to @em ERROR_SUCCESS.
  */
 void ResetLastErrorCode();
 
@@ -46,10 +44,10 @@ void ResetLastErrorCode();
 /**
  * @brief Get the message from the error code.
  * 
- * @param error_code    The error code got from `GetLastError` API.
- * @return The message or `NULL` if the method failed.
+ * @param error_code    The error code got from @em GetLastError API.
+ * @return The message or @em NULL if the method failed.
  * 
- * @warning The reture value must be free by `FreeErrorMessage()` method if it is not `NULL`.
+ * @warning The reture value must be free by @em FreeErrorMessage() method if it is not @em NULL.
  */
 TCHAR *FormatErrorMessage(
     const DWORD error_code);
@@ -58,7 +56,7 @@ TCHAR *FormatErrorMessage(
 /**
  * @brief Free the memory of message.
  * 
- * @param message   The message got from `FormatErrorMessage()` method.
+ * @param message   The message got from @em FormatErrorMessage() method.
  */
 void FreeErrorMessage(
     TCHAR *const message);

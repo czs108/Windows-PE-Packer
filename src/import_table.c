@@ -5,7 +5,6 @@
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-10
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -18,14 +17,12 @@
 /**
  * @brief The callback method, called when enumerating the import table.
  * 
- * @private @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
- * @param descriptor    The `IMAGE_IMPORT_DESCRIPTOR` structure.
+ * @param descriptor    The @em IMAGE_IMPORT_DESCRIPTOR structure.
  * @param arg           The optional custom argument.
  * @return The optional custom value.
  * 
- * @see `EnumImpTable()`
+ * @see EnumImpTable()
  */
 typedef DWORD(*LPFN_ENUM_IMP_CALLBACK)(
     const PE_IMAGE_INFO *const image_info,
@@ -39,11 +36,11 @@ typedef DWORD(*LPFN_ENUM_IMP_CALLBACK)(
 
 /**
  * @brief
- * The `::LPFN_ENUM_IMP_CALLBACK` method,
+ * The @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to calculate the size required for the import table of the new format.
  * 
  * @param image_info    The PE image.
- * @param descriptor    The `IMAGE_IMPORT_DESCRIPTOR` structure.
+ * @param descriptor    The @em IMAGE_IMPORT_DESCRIPTOR structure.
  * @param[in, out] size The required size.
  * @return Useless.
  */
@@ -55,11 +52,11 @@ static DWORD CalcSizeCallBack(
 
 /**
  * @brief
- * The `::LPFN_ENUM_IMP_CALLBACK` method,
+ * The @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to clear the original import table.
  * 
  * @param image_info    The PE image.
- * @param descriptor    The `IMAGE_IMPORT_DESCRIPTOR` structure.
+ * @param descriptor    The @em IMAGE_IMPORT_DESCRIPTOR structure.
  * @param arg           Useless.
  * @return Useless.
  */
@@ -71,11 +68,11 @@ static DWORD ClearCallBack(
 
 /**
  * @brief
- * The `::LPFN_ENUM_IMP_CALLBACK` method,
+ * The @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to transform the import table into the new format.
  * 
  * @param image_info            The PE image.
- * @param descriptor            The `IMAGE_IMPORT_DESCRIPTOR` structure.
+ * @param descriptor            The @em IMAGE_IMPORT_DESCRIPTOR structure.
  * @param[in, out] new_table    The space where the new table will be constructed.
  * @return Useless.
  */
@@ -89,13 +86,11 @@ static DWORD TransformCallBack(
 /**
  * @brief Enumerate the import table.
  * 
- * @private @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
  * @param callback
- * The `::LPFN_ENUM_IMP_CALLBACK` method,
- * it will be called on each `IMAGE_IMPORT_DESCRIPTOR` structure.
- * @param arg           The optional custom argument, it will be passed to `callback`.
+ * The @em ::LPFN_ENUM_IMP_CALLBACK method,
+ * it will be called on each @em IMAGE_IMPORT_DESCRIPTOR structure.
+ * @param arg           The optional custom argument, it will be passed to @em callback.
  */
 static void EnumImpTable(
     const PE_IMAGE_INFO *const image_info,

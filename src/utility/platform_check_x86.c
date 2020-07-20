@@ -1,10 +1,10 @@
 /**
  * @file platform_check_x86.c
  * @brief Check if the PE image matches the program platform.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-14
- * 
  * @par GitHub
  * https://github.com/czs108/
  * 

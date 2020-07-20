@@ -1,10 +1,10 @@
 /**
  * @file main.c
  * @brief The main program.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-19
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -54,25 +54,25 @@ int main(int argc, char *argv[])
     {
         SetLastErrorCode();
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     if (IsFileSmallerThan2G(in_file) != true)
     {
         wprintf(L" [!] ERROR: The program can only process files smaller than 2GB.\r\n");
-        goto _exit;
+        goto _Exit;
     }
 
     if (OpenReadViewOfFile(in_file, &in_file_view) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     if (IsPeFile(in_file_view.base) != true)
     {
         wprintf(L" [!] ERROR: The input file is not a PE file.\r\n");
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] Load the PE image.\r\n");
@@ -81,19 +81,19 @@ int main(int argc, char *argv[])
         &image_info, &extra_data) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     if (image_info.is_dll)
     {
         wprintf(L" [!] ERROR: The program can not process a DLL file.\r\n");
-        goto _exit;
+        goto _Exit;
     }
 
     if (IsPeMatchPlatform(&image_info) != true)
     {
         wprintf(L" [!] ERROR: The PE image doesn't match the program platform.\r\n");
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] Transform the import table.\r\n");
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     {
         SetLastErrorCode();
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     ZeroMemory(new_imp_table, new_imp_table_size);
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
     {
         SetLastErrorCode();
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     ZeroMemory(encry_info, encry_count * sizeof(ENCRY_INFO));
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
         shell_size, &shell_section_header) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] Install the shell.\r\n");
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
         new_imp_table_size, encry_info, encry_count) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] Write the new PE image to the output file.\r\n");
@@ -152,26 +152,26 @@ int main(int argc, char *argv[])
     {
         SetLastErrorCode();
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     if (WriteImageToFile(&image_info, out_file) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] Write the extra data to the output file.\r\n");
     if (WriteExtraDataToFile(&extra_data, out_file) != true)
     {
         api_error = true;
-        goto _exit;
+        goto _Exit;
     }
 
     wprintf(L" [*] The packing has finished.\r\n");
     success = true;
 
-_exit:
+_Exit:
     if (!success)
     {
         if (api_error)

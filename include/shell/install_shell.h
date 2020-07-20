@@ -1,10 +1,10 @@
 /**
  * @file install_shell.h
  * @brief Install the shell.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-15
- * 
  * @par GitHub
  * https://github.com/czs108/
  * 
@@ -33,14 +33,12 @@ DWORD CalcShellSize(
 /**
  * @brief Install the shell.
  * 
- * @public @memberof _PE_IMAGE_INFO
- * 
  * @param image_info            The PE image.
  * @param new_imp_table         The transformed import table.
  * @param new_imp_table_size    The size of the transformed import table.
  * @param encry_info            The encryption information of sections.
  * @param encry_count           The count of encryption information.
- * @return `true` if the method succeeds, otherwise `false`.
+ * @return @em true if the method succeeds, otherwise @em false.
  * 
  * @see @ref entry-code-of-shell
  */

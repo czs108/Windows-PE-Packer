@@ -1,10 +1,10 @@
 /**
  * @file section.c
  * @brief Modify sections.
+ * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-12
- * 
  * @par GitHub
  * https://github.com/czs108/
  */
@@ -19,14 +19,12 @@
 /**
  * @brief The callback method, called when enumerating sections.
  * 
- * @private @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
- * @param header        The `IMAGE_SECTION_HEADER` structure.
+ * @param header        The @em IMAGE_SECTION_HEADER structure.
  * @param arg           The optional custom argument.
  * @return The optional custom value.
  * 
- * @see `EnumSection()`
+ * @see EnumSection()
  * 
  */
 typedef DWORD(*LPFN_ENUM_SECTION_CALLBACK)(
@@ -41,11 +39,11 @@ typedef DWORD(*LPFN_ENUM_SECTION_CALLBACK)(
 
 /**
  * @brief
- * The `::LPFN_ENUM_SECTION_CALLBACK` method,
+ * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
  * used to clear the section name.
  * 
  * @param image_info    The PE image.
- * @param header        The `IMAGE_SECTION_HEADER` structure.
+ * @param header        The @em IMAGE_SECTION_HEADER structure.
  * @param arg           Useless.
  * @return Useless.
  */
@@ -57,11 +55,11 @@ static DWORD ClearNameCallBack(
 
 /**
  * @brief
- * The `::LPFN_ENUM_SECTION_CALLBACK` method,
+ * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
  * used to get the number of sections that can be encrypted.
  * 
  * @param image_info        The PE image.
- * @param header            The `IMAGE_SECTION_HEADER` structure.
+ * @param header            The @em IMAGE_SECTION_HEADER structure.
  * @param[in, out] count    The number of sections that can be encrypted.
  * @return Useless.
  */
@@ -73,11 +71,11 @@ static DWORD CheckEncryptableCallBack(
 
 /**
  * @brief
- * The `::LPFN_ENUM_SECTION_CALLBACK` method,
+ * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
  * used to Encrypt the section.
  * 
  * @param image_info            The PE image.
- * @param header                The `IMAGE_SECTION_HEADER` structure.
+ * @param header                The @em IMAGE_SECTION_HEADER structure.
  * @param[in, out] encry_info   The space where the encryption information will be saved.
  * @return Useless.
  */
@@ -91,13 +89,11 @@ static DWORD EncryCallBack(
 /**
  * @brief Enumerate sections.
  * 
- * @private @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
  * @param callback
- * The `::LPFN_ENUM_SECTION_CALLBACK` method,
- * it will be called on each `IMAGE_SECTION_HEADER` structure.
- * @param arg           The optional custom argument, it will be passed to `callback`.
+ * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
+ * it will be called on each @em IMAGE_SECTION_HEADER structure.
+ * @param arg           The optional custom argument, it will be passed to @em callback.
  */
 static void EnumSections(
     const PE_IMAGE_INFO *const image_info,
@@ -108,8 +104,8 @@ static void EnumSections(
 /**
  * @brief Check if the section can be encrypted.
  * 
- * @param header    The `IMAGE_SECTION_HEADER` structure.
- * @return `true` if the section can be encrypted, otherwise `false`.
+ * @param header    The @em IMAGE_SECTION_HEADER structure.
+ * @return @em true if the section can be encrypted, otherwise @em false.
  */
 static bool IsEncryptable(
     const IMAGE_SECTION_HEADER *const header);
@@ -118,10 +114,8 @@ static bool IsEncryptable(
 /**
  * @brief Calculate the size of the section, not including the zero at the end.
  * 
- * @private @memberof _PE_IMAGE_INFO
- * 
  * @param image_info    The PE image.
- * @param header        The `IMAGE_SECTION_HEADER` structure.
+ * @param header        The @em IMAGE_SECTION_HEADER structure.
  * @return The minimum size of the section.
  */
 static DWORD CalcMinSize(
