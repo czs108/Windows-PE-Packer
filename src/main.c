@@ -125,8 +125,14 @@ int main(int argc, char *argv[])
     ZeroMemory(encry_info, encry_count * sizeof(ENCRY_INFO));
     EncryptSections(&image_info, encry_info);
 
-    ClearSectionNames(&image_info);
     wprintf(L" [*] Clear section names.\r\n");
+    ClearSectionNames(&image_info);
+
+    if (CanAppendNewSection(&image_info) != true)
+    {
+        wprintf(L" [!] ERROR: The PE image has no space for a new section.\r\n");
+        goto _Exit;
+    }
 
     wprintf(L" [*] Append a new section for the shell.\r\n");
     const DWORD shell_size = CalcShellSize(new_imp_table_size);

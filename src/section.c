@@ -137,6 +137,26 @@ static ENCRY_INFO *SaveEncryInfo(
     const DWORD size);
 
 
+bool CanAppendNewSection(
+    const PE_IMAGE_INFO *const image_info)
+{
+    assert(image_info != NULL);
+
+    const DWORD section_align = image_info->nt_header->OptionalHeader.SectionAlignment;
+
+    // get the size of current headers
+    const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
+    const DWORD headers_virtual_size = Align(headers_size, section_align);
+
+    // calculate the new size of headers after appending a section
+    const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
+    const DWORD new_headers_virtual_size = Align(new_headers_size, section_align);
+
+    // check the change of size after appending a section
+    return new_headers_virtual_size == headers_virtual_size;
+}
+
+
 bool AppendNewSection(
     PE_IMAGE_INFO *const image_info,
     const CHAR *const name,
@@ -145,14 +165,12 @@ bool AppendNewSection(
 {
     assert(image_info != NULL);
     assert(header != NULL);
+    assert(CanAppendNewSection(image_info));
 
     ZeroMemory(header, sizeof(IMAGE_SECTION_HEADER));
 
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
-    if (size == 0)
-    {
-        return section_num;
-    }
+    assert(section_num > 0);
 
     // set the section attribute
     header->Characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA
@@ -178,18 +196,14 @@ bool AppendNewSection(
     // get the size of current headers
     const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     const DWORD headers_raw_size = Align(headers_size, file_align);
-    const DWORD headers_virtual_size = Align(headers_size, section_align);
 
     // calculate the new size of headers after appending a section
     const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
     const DWORD new_headers_raw_size = Align(new_headers_size, file_align);
-    const DWORD new_headers_virtual_size = Align(new_headers_size, section_align);
 
     // get the offset of headers
-    const DWORD headers_raw_offset = new_headers_raw_size > headers_raw_size ?
-        new_headers_raw_size - headers_raw_size : 0;
-    const DWORD headers_virtual_offset = new_headers_virtual_size > headers_virtual_size ?
-        new_headers_virtual_size - headers_virtual_size : 0;
+    assert(new_headers_raw_size >= headers_raw_size);
+    const DWORD headers_raw_offset = new_headers_raw_size - headers_raw_size;
 
     // set the address of the section
     const IMAGE_SECTION_HEADER *const last_section_header =
@@ -197,14 +211,13 @@ bool AppendNewSection(
     const DWORD last_section_end = last_section_header->PointerToRawData
         + last_section_header->SizeOfRawData;
 
-    header->VirtualAddress = image_info->image_size + headers_virtual_offset;
+    header->VirtualAddress = image_info->image_size;
     header->PointerToRawData = last_section_end + headers_raw_offset;
 
     /* adjust the PE_IMAGE_INFO structure */
 
     // allocate a new image
-    const DWORD new_image_size = image_info->image_size
-        + virtual_size + headers_virtual_offset;
+    const DWORD new_image_size = image_info->image_size + virtual_size;
     BYTE *const new_image_base = (BYTE*)VirtualAlloc(NULL,
         new_image_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     if (new_image_base == NULL)
@@ -213,21 +226,14 @@ bool AppendNewSection(
         return false;
     }
 
-    // move headers
-    CopyMemory(new_image_base, image_info->image_base, headers_raw_size);
-
-    // move sections
-    const DWORD first_section_rva = headers_virtual_size;
-    CopyMemory(new_image_base + first_section_rva + headers_virtual_offset,
-        image_info->image_base + first_section_rva,
-        image_info->image_size - first_section_rva);
+    // move the image
+    MoveMemory(new_image_base, image_info->image_base, image_info->image_size);
+    VirtualFree(image_info->image_base, 0, MEM_RELEASE);
 
     image_info->nt_header = (IMAGE_NT_HEADERS*)
         (new_image_base + ((BYTE*)image_info->nt_header - image_info->image_base));
     image_info->section_header = (IMAGE_SECTION_HEADER*)
         (new_image_base + ((BYTE*)image_info->section_header - image_info->image_base));
-
-    VirtualFree(image_info->image_base, 0, MEM_RELEASE);
 
     image_info->image_base = new_image_base;
     image_info->image_size = new_image_size;
@@ -236,13 +242,12 @@ bool AppendNewSection(
     image_info->nt_header->OptionalHeader.SizeOfInitializedData += raw_size;
     image_info->nt_header->OptionalHeader.SizeOfHeaders = new_headers_raw_size;
 
-    if (headers_raw_offset > 0 || headers_virtual_offset > 0)
+    if (headers_raw_offset > 0)
     {
         // adjust the address of sections
         for (WORD i = 0; i != section_num; ++i)
         {
             image_info->section_header[i].PointerToRawData += headers_raw_offset;
-            image_info->section_header[i].VirtualAddress += headers_virtual_offset;
         }
     }
 

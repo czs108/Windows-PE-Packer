@@ -31,6 +31,16 @@ typedef struct _ENCRY_INFO
 
 
 /**
+ * @brief Check if a new section can be appended to the PE image.
+ * 
+ * @param image_info    The PE image.
+ * @return @em true or @em false.
+ */
+bool CanAppendNewSection(
+    const PE_IMAGE_INFO *const image_info);
+
+
+/**
  * @brief Append a new section to the PE image.
  * 
  * @param image_info    The PE image.
