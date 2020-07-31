@@ -81,7 +81,7 @@ The project must configure on/for **Windows 32-bit** and can only process **32-b
 To pack a program, you must specify its *input name* and the *output name*.
 
 ```powershell
-PE-Packer input-file output-file
+PE-Packer <input-file> <output-file>
 ```
 
 For example:

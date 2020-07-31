@@ -58,7 +58,7 @@
  * To pack a program, you must specify its *input name* and the *output name*.
  * 
  * ```powershell
- * PE-Packer input-file output-file
+ * PE-Packer <input-file> <output-file>
  * ```
  * 
  * For example:

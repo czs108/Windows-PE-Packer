@@ -81,7 +81,7 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 对可执行文件加壳时，需要指定其*输入路径*和*输出路径*。
 
 ```powershell
-PE-Packer input-file output-file
+PE-Packer <input-file> <output-file>
 ```
 
 例如：
