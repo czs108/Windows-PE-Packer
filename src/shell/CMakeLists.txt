@@ -22,8 +22,6 @@ else()
     target_sources(shell
         PRIVATE
             ${CMAKE_CURRENT_LIST_DIR}/entry_x86.asm
-            ${CMAKE_CURRENT_LIST_DIR}/include_x86/windows.inc
-            ${CMAKE_CURRENT_LIST_DIR}/include_x86/winextra.inc
     )
 
     set_source_files_properties(entry_x86.asm PROPERTIES COMPILE_FLAGS "/c /coff")

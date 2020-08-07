@@ -13,7 +13,7 @@
 .model flat, stdcall
 option casemap: none
 
-include include_x86/windows.inc
+include /masm32/include/windows.inc
 
 
 ; The maximum number of encrypted sections supported by the program.
