@@ -53,6 +53,12 @@
  * ..\PE-Packer\build> cmake --build .
  * ```
  * 
+ * Or run the `build.ps1` file directly:
+ * 
+ * ```powershell
+ * ..\PE-Packer> .\build.ps1
+ * ```
+ * 
  * @section usage Usage
  * 
  * To pack a program, you must specify its *input name* and the *output name*.

@@ -76,6 +76,12 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 ..\PE-Packer\build> cmake --build .
 ```
 
+或直接执行`build.ps1`文件:
+
+```powershell
+..\PE-Packer> .\build.ps1
+```
+
 ## 使用
 
 对可执行文件加壳时，需要指定其*输入路径*和*输出路径*。

@@ -76,6 +76,12 @@ The project must configure on/for **Windows 32-bit** and can only process **32-b
 ..\PE-Packer\build> cmake --build .
 ```
 
+Or run the `build.ps1` file directly:
+
+```powershell
+..\PE-Packer> .\build.ps1
+```
+
 ## Usage
 
 To pack a program, you must specify its *input name* and the *output name*.
