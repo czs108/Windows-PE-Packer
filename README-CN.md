@@ -70,16 +70,16 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 ### 构建
 
 ```powershell
-..\PE-Packer> mkdir -p build
-..\PE-Packer> cd build
-..\PE-Packer\build> cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
-..\PE-Packer\build> cmake --build .
+> mkdir -p build
+> cd build
+> cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
+> cmake --build .
 ```
 
 或直接执行`build.ps1`文件:
 
 ```powershell
-..\PE-Packer> .\build.ps1
+> .\build.ps1
 ```
 
 ## 使用

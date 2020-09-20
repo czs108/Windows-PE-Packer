@@ -47,16 +47,16 @@
  * @subsection building Building
  * 
  * ```powershell
- * ..\PE-Packer> mkdir -p build
- * ..\PE-Packer> cd build
- * ..\PE-Packer\build> cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
- * ..\PE-Packer\build> cmake --build .
+ * > mkdir -p build
+ * > cd build
+ * > cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
+ * > cmake --build .
  * ```
  * 
  * Or run the `build.ps1` file directly:
  * 
  * ```powershell
- * ..\PE-Packer> .\build.ps1
+ * > .\build.ps1
  * ```
  * 
  * @section usage Usage
