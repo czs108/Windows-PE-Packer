@@ -33,7 +33,7 @@ typedef struct _FILE_VIEW
 
 
 /**
- * @brief Write all the data to the file.
+ * @brief Write all data to a file.
  * 
  * @param file  The file.
  * @param data  The base address of the data.
@@ -47,7 +47,7 @@ bool WriteAllToFile(
 
 
 /**
- * @brief Open a read-only view of the file.
+ * @brief Open a read-only view for a file.
  * 
  * @param file              The file.
  * @param[out] file_view    The read-only view.
@@ -72,7 +72,7 @@ void CloseViewOfFile(
 
 
 /**
- * @brief Check if the size of the file is smaller than 2GB.
+ * @brief Check if the size of a file is smaller than 2GB.
  * 
  * @param file  The file.
  * @return @em true if the size of the file is smaller than 2GB, otherwise @em false.

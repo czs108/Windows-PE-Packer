@@ -56,7 +56,7 @@ public origin_pe_info
 public tls_table
 
 
-; @brief The encryption information of the segment.
+; @brief The encryption information of a segment.
 SEG_ENCRY_INFO      struct
     ; The offset, relative to the shell.
     seg_offset          dword   ?
@@ -65,7 +65,7 @@ SEG_ENCRY_INFO      struct
 SEG_ENCRY_INFO      ends
 
 
-; @brief The encryption information of the section.
+; @brief The encryption information of a section.
 SECTION_ENCRY_INFO  struct
     ; The relative virtual address.
     sec_rva             dword   ?
@@ -89,7 +89,7 @@ ORIGIN_PE_INFO      struct
 ORIGIN_PE_INFO      ends
 
 
-; @brief Decrypt the data.
+; @brief Decrypt data.
 ;
 ; @param src    The base address of the encrypted data.
 ; @param dest   The space where the decrypted data will be saved.

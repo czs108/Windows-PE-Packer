@@ -12,7 +12,7 @@
 /**
  * @page entry-code-of-shell The Entry Code of the Shell
  * @brief Documents about the entry code of the shell
- * @details The entry code is written by Microsoft Assembly Language in `.asm` files.
+ * @details The entry code is written in Microsoft Assembly Language in `.asm` files.
  * 
  * @section set-src-property How to Set the Property of the .ASM File in Visual Studio
  * 1. Right-click this file and open "Properties" -> "General" page.
@@ -26,9 +26,9 @@
  * 
  * @section process-of-entry-code The Process of the Entry Code
  * - The *Boot* Segment
- *   1. Decrypt and run *Load* segment.
+ *   1. Decrypt and run the *Load* segment.
  * - The *Load* Segment
- *   1. Decrypt the sections.
+ *   1. Decrypt sections.
  *   2. Initialize the original import table.
  *   3. Relocation.
  */

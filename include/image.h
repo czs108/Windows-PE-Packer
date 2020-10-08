@@ -1,6 +1,6 @@
 /**
  * @file image.h
- * @brief basic PE image methods.
+ * @brief Basic PE image methods.
  * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
@@ -30,7 +30,7 @@ typedef struct _PE_IMAGE_INFO
     //! The base address of the PE image when it is loaded in memory.
     BYTE *image_base;
 
-    //! The base address of @em IMAGE_NT_HEADERS structure.
+    //! The base address of the @em IMAGE_NT_HEADERS structure.
     IMAGE_NT_HEADERS *nt_header;
 
     //! The base address of the first @em IMAGE_SECTION_HEADER structure.
@@ -46,7 +46,7 @@ typedef struct _PE_IMAGE_INFO
 
 
 /**
- * @brief Load the PE file to memory.
+ * @brief Load a PE file to memory.
  * 
  * @param file_base         The base address of the file content.
  * @param file_size         The size of the file.
@@ -65,7 +65,7 @@ bool LoadPeImage(
 
 
 /**
- * @brief Free the memory of the PE image.
+ * @brief Free the memory of a PE image.
  * 
  * @param image_info    The PE image.
  * 
@@ -76,7 +76,7 @@ void FreePeImage(
 
 
 /**
- * @brief Write the PE image to a new file.
+ * @brief Write a PE image to a new file.
  * 
  * @param image_info    The PE image.
  * @param file          The file.
@@ -88,10 +88,10 @@ bool WriteImageToFile(
 
 
 /**
- * @brief Convert the relative virtual address to a virtual address.
+ * @brief Convert a relative virtual address to a virtual address.
  * 
  * @param image_info    The PE image.
- * @param rva           The relative virtual address.
+ * @param rva           A relative virtual address.
  * @return The virtual address.
  */
 BYTE *RvaToVa(
@@ -100,7 +100,7 @@ BYTE *RvaToVa(
 
 
 /**
- * @brief Check whether the PE image is x64 or x86.
+ * @brief Check whether a PE image is x64 or x86.
  * 
  * @param image_info    The PE image.
  * @return @em true if the image is a x64 file, otherwise @em false.
@@ -110,10 +110,10 @@ bool IsPe64(
 
 
 /**
- * @brief Align the value according to the alignment.
+ * @brief Align a value according to the alignment.
  * 
- * @param value     The value to be aligned.
- * @param align     The value of alignment.
+ * @param value     A value to be aligned.
+ * @param align     A value of alignment.
  * @return The value after alignment.
  */
 DWORD Align(
@@ -122,7 +122,7 @@ DWORD Align(
 
 
 /**
- * @brief Check if the file is a PE file.
+ * @brief Check if a file is a PE file.
  * 
  * @param file_base The base address of the file content.
  * @return @em true if the file is a PE file, otherwise @em false.
@@ -137,8 +137,8 @@ bool IsPeFile(
  * including @em IMAGE_DOS_HEADER, @em IMAGE_NT_HEADERS and all @em IMAGE_SECTION_HEADER structures.
  * 
  * @param file_base             The base address of the file content.
- * @param[out] dos_header_size  The size of @em IMAGE_DOS_HEADER structure. It's optional.
- * @param[out] nt_header_size   The size of @em IMAGE_NT_HEADERS structure. It's optional.
+ * @param[out] dos_header_size  The size of the @em IMAGE_DOS_HEADER structure. It's optional.
+ * @param[out] nt_header_size   The size of the @em IMAGE_NT_HEADERS structure. It's optional.
  * @return The size of PE headers.
  */
 DWORD CalcHeadersSize(

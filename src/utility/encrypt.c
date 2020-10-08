@@ -1,6 +1,6 @@
 /**
  * @file encrypt.c
- * @brief Encrypt the data.
+ * @brief Encrypt data.
  * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0

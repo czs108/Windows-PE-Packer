@@ -19,13 +19,13 @@
  * It will do the following things when packing a PE file:
  * 
  * - Transforming the original import table.
- * - Encrypting the sections.
- * - Clearing the section names.
+ * - Encrypting sections.
+ * - Clearing section names.
  * - Installing the *shell-entry*.
  * 
  * When running a packed PE file, the *shell-entry* will decrypt and load the original program as follows:
  * 
- * - Decrypting the sections.
+ * - Decrypting sections.
  * - Initializing the original import table.
  * - Relocation.
  * 

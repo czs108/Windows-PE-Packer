@@ -1,6 +1,6 @@
 # Set the Property of the .ASM File in Visual Studio
 
-The entry code of the shell is written by Microsoft Assembly Language in `.asm` files.
+The entry code of the shell is written in Microsoft Assembly Language in `.asm` files.
 
 1. Right-click the `.asm` file and open "***Properties***" -> "***General***" page.
    - Set `Excluded From Build` to `No`.

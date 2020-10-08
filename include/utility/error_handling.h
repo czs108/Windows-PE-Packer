@@ -16,15 +16,15 @@
 #include <windows.h>
 
 /**
- * @brief Get the last error code.
+ * @brief Get the last-error code.
  * 
- * @return The error code.
+ * @return The last-error code.
  */
 DWORD GetLastErrorCode();
 
 
 /**
- * @brief Set the last error code got from @em GetLastError API.
+ * @brief Set the last-error code got from @em GetLastError API.
  * 
  * @warning This method can only and must be called after a direct Windows API call failed.
  * 
@@ -36,16 +36,16 @@ void SetLastErrorCode();
 
 
 /**
- * @brief Reset the last error code to @em ERROR_SUCCESS.
+ * @brief Reset the last-error code to @em ERROR_SUCCESS.
  */
 void ResetLastErrorCode();
 
 
 /**
- * @brief Get the message from the error code.
+ * @brief Get the message from an error code.
  * 
- * @param error_code    The error code got from @em GetLastError API.
- * @return The message or @em NULL if the method failed.
+ * @param error_code    An error code got from @em GetLastErrorCode method.
+ * @return A message or @em NULL if the method failed.
  * 
  * @warning The reture value must be free by @em FreeErrorMessage() method if it is not @em NULL.
  */
@@ -54,9 +54,9 @@ TCHAR *FormatErrorMessage(
 
 
 /**
- * @brief Free the memory of message.
+ * @brief Free the memory of a message.
  * 
- * @param message   The message got from @em FormatErrorMessage() method.
+ * @param message   A message got from @em FormatErrorMessage() method.
  */
 void FreeErrorMessage(
     TCHAR *const message);

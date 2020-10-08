@@ -16,7 +16,7 @@
 #include <stdbool.h>
 
 /**
- * @brief The view of the extra data.
+ * @brief The view of extra data.
  * 
  * @see LoadPeImage()
  */
@@ -32,7 +32,7 @@ typedef struct _EXTRA_DATA_VIEW
 
 
 /**
- * @brief Write the extra data to the file.
+ * @brief Write extra data to a file.
  * 
  * @param data  The extra data.
  * @param file  The file.

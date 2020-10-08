@@ -15,12 +15,12 @@
 #include <string.h>
 
 /**
- * @brief The callback method, called when enumerating the import table.
+ * @brief A callback method, called when enumerating the import table.
  * 
  * @param image_info    The PE image.
  * @param descriptor    The @em IMAGE_IMPORT_DESCRIPTOR structure.
- * @param arg           The optional custom argument.
- * @return The optional custom value.
+ * @param arg           An optional custom argument.
+ * @return An optional custom value.
  * 
  * @see EnumImpTable()
  */
@@ -36,7 +36,7 @@ typedef DWORD(*LPFN_ENUM_IMP_CALLBACK)(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_IMP_CALLBACK method,
+ * A @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to calculate the size required for the import table of the new format.
  * 
  * @param image_info    The PE image.
@@ -52,7 +52,7 @@ static DWORD CalcSizeCallBack(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_IMP_CALLBACK method,
+ * A @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to clear the original import table.
  * 
  * @param image_info    The PE image.
@@ -68,7 +68,7 @@ static DWORD ClearCallBack(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_IMP_CALLBACK method,
+ * A @em ::LPFN_ENUM_IMP_CALLBACK method,
  * used to transform the import table into the new format.
  * 
  * @param image_info            The PE image.
@@ -88,9 +88,9 @@ static DWORD TransformCallBack(
  * 
  * @param image_info    The PE image.
  * @param callback
- * The @em ::LPFN_ENUM_IMP_CALLBACK method,
+ * A @em ::LPFN_ENUM_IMP_CALLBACK method,
  * it will be called on each @em IMAGE_IMPORT_DESCRIPTOR structure.
- * @param arg           The optional custom argument, it will be passed to @em callback.
+ * @param arg           An optional custom argument, it will be passed to @em callback.
  */
 static void EnumImpTable(
     const PE_IMAGE_INFO *const image_info,
@@ -130,15 +130,15 @@ void ClearImpTable(
 {
     assert(image_info != NULL);
 
-    // clear the import table
+    // Clear the import table
     EnumImpTable(image_info, &ClearCallBack, NULL);
 
-    /* clear the DataDirectory */
+    /* Clear the DataDirectory */
 
-    // get the base address of the DataDirectory array
+    // Get the base address of the DataDirectory array
     IMAGE_DATA_DIRECTORY *const dirs = image_info->nt_header->OptionalHeader.DataDirectory;
 
-    // clear the DataDirectory of the bound import table
+    // Clear the DataDirectory of the bound import table
     IMAGE_DATA_DIRECTORY *const bound_dir = &dirs[IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT];
     if (bound_dir->VirtualAddress != 0 && bound_dir->Size > 0)
     {
@@ -148,7 +148,7 @@ void ClearImpTable(
 
     ZeroMemory(bound_dir, sizeof(IMAGE_DATA_DIRECTORY));
 
-    // clear the DataDirectory of the import address table (IAT)
+    // Clear the DataDirectory of the import address table (IAT)
     IMAGE_DATA_DIRECTORY *const iat_dir = &dirs[IMAGE_DIRECTORY_ENTRY_IAT];
     if (iat_dir->VirtualAddress != 0 && iat_dir->Size > 0)
     {
@@ -158,7 +158,7 @@ void ClearImpTable(
 
     ZeroMemory(iat_dir, sizeof(IMAGE_DATA_DIRECTORY));
 
-    // clear the DataDirectory of the delay import table
+    // Clear the DataDirectory of the delay import table
     IMAGE_DATA_DIRECTORY *const delay_dir = &dirs[IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT];
     ZeroMemory(delay_dir, sizeof(IMAGE_DATA_DIRECTORY));
 }
@@ -195,23 +195,23 @@ DWORD CalcSizeCallBack(
     assert(descriptor != NULL);
     assert(size != NULL);
 
-    // get the accumulative size
+    // Get the accumulative size
     DWORD curr_size = *(DWORD*)size;
 
-    // the FirstThunk structure
+    // The FirstThunk structure
     curr_size += sizeof(IMAGE_THUNK_DATA);
 
-    // the size of the DLL name, including the '\0'
+    // The size of the DLL name, including the '\0'
     curr_size += sizeof(BYTE);
 
-    // the DLL name
+    // The DLL name
     const CHAR *const dll_name = RvaToVa(image_info, descriptor->Name);
     curr_size += (strlen(dll_name) + 1) * sizeof(CHAR);
 
-    // the number of functions
+    // The number of functions
     curr_size += sizeof(DWORD);
 
-    // get the import name table (INT) or the import address table (IAT)
+    // Get the import name table (INT) or import address table (IAT)
     const IMAGE_THUNK_DATA *thunk = NULL;
     if (descriptor->OriginalFirstThunk != 0)
     {
@@ -226,25 +226,25 @@ DWORD CalcSizeCallBack(
 
     for (; thunk->u1.AddressOfData != 0; ++thunk)
     {
-        // the size of the function name, including the '\0'
-        // or the flag 0x00
+        // The size of the function name, including the '\0'
+        // Or the flag 0x00
         curr_size += sizeof(BYTE);
 
         if (IMAGE_SNAP_BY_ORDINAL(thunk->u1.Ordinal))
         {
-            // the function order
+            // The function order
             curr_size += sizeof(VOID*);
         }
         else
         {
-            // the function name
+            // The function name
             const IMAGE_IMPORT_BY_NAME *const func_name = (IMAGE_IMPORT_BY_NAME*)
                 RvaToVa(image_info, thunk->u1.AddressOfData);
             curr_size += (strlen((CHAR*)func_name->Name) + 1) * sizeof(CHAR);
         }
     }
 
-    // update the accumulative size
+    // Update the accumulative size
     *(DWORD*)size = curr_size;
     return 0;
 }
@@ -258,11 +258,11 @@ DWORD ClearCallBack(
     assert(image_info != NULL);
     assert(descriptor != NULL);
 
-    // clear the DLL name
+    // Clear the DLL name
     CHAR *const dll_name = RvaToVa(image_info, descriptor->Name);
     ZeroMemory(dll_name, strlen(dll_name) * sizeof(CHAR));
 
-    // clear the import name table (INT)
+    // Clear the import name table (INT)
     if (descriptor->OriginalFirstThunk != 0)
     {
         for (IMAGE_THUNK_DATA *thunk = (IMAGE_THUNK_DATA*)
@@ -272,7 +272,7 @@ DWORD ClearCallBack(
         {
             if (!IMAGE_SNAP_BY_ORDINAL(thunk->u1.Ordinal))
             {
-                // clear the function name
+                // Clear the function name
                 IMAGE_IMPORT_BY_NAME *const func_name = (IMAGE_IMPORT_BY_NAME*)
                     RvaToVa(image_info, thunk->u1.AddressOfData);
                 ZeroMemory(func_name,  sizeof(WORD)
@@ -283,7 +283,7 @@ DWORD ClearCallBack(
         }
     }
 
-    // clear the import address table (IAT)
+    // Clear the import address table (IAT)
     for (IMAGE_THUNK_DATA *thunk = (IMAGE_THUNK_DATA*)
             RvaToVa(image_info, descriptor->FirstThunk);
         thunk->u1.AddressOfData != 0;
@@ -292,7 +292,7 @@ DWORD ClearCallBack(
         ZeroMemory(thunk, sizeof(IMAGE_THUNK_DATA));
     }
 
-    // clear the IMAGE_IMPORT_DESCRIPTOR structure
+    // Clear the IMAGE_IMPORT_DESCRIPTOR structure
     ZeroMemory(descriptor, sizeof(IMAGE_IMPORT_DESCRIPTOR));
 
     return 0;
@@ -308,29 +308,29 @@ DWORD TransformCallBack(
     assert(descriptor != NULL);
     assert(new_table != NULL);
 
-    // get the current address of the new table
+    // Get the current address of the new table
     BYTE *buffer = *(BYTE**)new_table;
 
-    // save the FirstThunk structure
+    // Save the FirstThunk structure
     CopyMemory(buffer, &descriptor->FirstThunk, sizeof(IMAGE_THUNK_DATA));
     buffer += sizeof(IMAGE_THUNK_DATA);
 
-    // save the size of the DLL name, including the '\0'
+    // Save the size of the DLL name, including the '\0'
     const CHAR *const dll_name = RvaToVa(image_info, descriptor->Name);
     const BYTE dll_name_size = (strlen(dll_name) + 1) * sizeof(CHAR);
     *buffer = dll_name_size;
     buffer += sizeof(BYTE);
 
-    // save the DLL name
+    // Save the DLL name
     CopyMemory(buffer, dll_name, dll_name_size);
     buffer += dll_name_size;
 
-    // get the location where the number of functions being saved
+    // Get the location where the number of functions being saved
     DWORD *const func_num = (DWORD*)buffer;
     *func_num = 0;
     buffer += sizeof(DWORD);
 
-    // get the import name table (INT) or the import address table (IAT)
+    // Get the import name table (INT) or import address table (IAT)
     const IMAGE_THUNK_DATA *thunk = NULL;
     if (descriptor->OriginalFirstThunk != 0)
     {
@@ -347,33 +347,33 @@ DWORD TransformCallBack(
     {
         if (IMAGE_SNAP_BY_ORDINAL(thunk->u1.Ordinal))
         {
-            // save the flag 0x00
+            // Save the flag 0x00
             *buffer = 0;
             buffer += sizeof(BYTE);
 
-            // save the function order
+            // Save the function order
             *(VOID**)buffer = (VOID*)IMAGE_ORDINAL(thunk->u1.Ordinal);
             buffer += sizeof(VOID*);
         }
         else
         {
-            // save the size of the function name, including the '\0'
+            // Save the size of the function name, including the '\0'
             const IMAGE_IMPORT_BY_NAME *const func_name = (IMAGE_IMPORT_BY_NAME*)
                 RvaToVa(image_info, thunk->u1.AddressOfData);
             const BYTE func_name_size = (strlen(func_name->Name) + 1) * sizeof(CHAR);
             *buffer = func_name_size;
             buffer += sizeof(BYTE);
 
-            // save the function name
+            // Save the function name
             CopyMemory(buffer, func_name->Name, func_name_size);
             buffer += func_name_size;
         }
 
-        // update the number of functions
+        // Update the number of functions
         ++*func_num;
     }
 
-    // update the current address
+    // Update the current address
     *(BYTE**)new_table = buffer;
     return 0;
 }

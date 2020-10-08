@@ -71,7 +71,7 @@ WORD GetEncryptableSectionNumber(
  * 
  * @param image_info    The PE image.
  * @param encry_info
- * The array where the encryption information will be saved,
+ * An array where the encryption information will be saved,
  * and its length must be larger than the value returned by @em GetNumOfSectionsCanBeEncrypted() method.
  * Set this to @em NULL to get the required length.
  * @return The number of sections can be encrypted.
@@ -82,7 +82,7 @@ WORD EncryptSections(
 
 
 /**
- * @brief Clear the section name.
+ * @brief Clear section names.
  * 
  * @param image_info    The PE image.
  */

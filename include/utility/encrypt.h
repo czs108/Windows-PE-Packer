@@ -1,6 +1,6 @@
 /**
  * @file encrypt.h
- * @brief Encrypt the data.
+ * @brief Encrypt data.
  * 
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
@@ -14,7 +14,7 @@
 #include <windows.h>
 
 /**
- * @brief Encrypt the data.
+ * @brief Encrypt data.
  * 
  * @param base  The base address of the data.
  * @param size  The size of the data.

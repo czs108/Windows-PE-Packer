@@ -17,12 +17,12 @@
 #include <stdbool.h>
 
 /**
- * @brief The callback method, called when enumerating sections.
+ * @brief A callback method, called when enumerating sections.
  * 
  * @param image_info    The PE image.
  * @param header        The @em IMAGE_SECTION_HEADER structure.
- * @param arg           The optional custom argument.
- * @return The optional custom value.
+ * @param arg           An optional custom argument.
+ * @return An optional custom value.
  * 
  * @see EnumSection()
  * 
@@ -39,8 +39,8 @@ typedef DWORD(*LPFN_ENUM_SECTION_CALLBACK)(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
- * used to clear the section name.
+ * A @em ::LPFN_ENUM_SECTION_CALLBACK method,
+ * used to clear section names.
  * 
  * @param image_info    The PE image.
  * @param header        The @em IMAGE_SECTION_HEADER structure.
@@ -55,7 +55,7 @@ static DWORD ClearNameCallBack(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
+ * A @em ::LPFN_ENUM_SECTION_CALLBACK method,
  * used to get the number of sections that can be encrypted.
  * 
  * @param image_info        The PE image.
@@ -71,8 +71,8 @@ static DWORD CheckEncryptableCallBack(
 
 /**
  * @brief
- * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
- * used to Encrypt the section.
+ * A @em ::LPFN_ENUM_SECTION_CALLBACK method,
+ * used to Encrypt sections.
  * 
  * @param image_info            The PE image.
  * @param header                The @em IMAGE_SECTION_HEADER structure.
@@ -91,9 +91,9 @@ static DWORD EncryCallBack(
  * 
  * @param image_info    The PE image.
  * @param callback
- * The @em ::LPFN_ENUM_SECTION_CALLBACK method,
+ * A @em ::LPFN_ENUM_SECTION_CALLBACK method,
  * it will be called on each @em IMAGE_SECTION_HEADER structure.
- * @param arg           The optional custom argument, it will be passed to @em callback.
+ * @param arg           An optional custom argument, it will be passed to @em callback.
  */
 static void EnumSections(
     const PE_IMAGE_INFO *const image_info,
@@ -102,7 +102,7 @@ static void EnumSections(
 
 
 /**
- * @brief Check if the section can be encrypted.
+ * @brief Check if a section can be encrypted.
  * 
  * @param header    The @em IMAGE_SECTION_HEADER structure.
  * @return @em true if the section can be encrypted, otherwise @em false.
@@ -112,7 +112,7 @@ static bool IsEncryptable(
 
 
 /**
- * @brief Calculate the size of the section, not including the zero at the end.
+ * @brief Calculate the size of a section, not including the zero at the end.
  * 
  * @param image_info    The PE image.
  * @param header        The @em IMAGE_SECTION_HEADER structure.
@@ -124,12 +124,12 @@ static DWORD CalcMinSize(
 
 
 /**
- * @brief Save the encryption information.
+ * @brief Save the encryption information of a section.
  * 
- * @param buffer    The space where the information will be saved.
+ * @param buffer    A buffer where the information will be saved.
  * @param rva       The relative virtual address of the section.
  * @param size      The size of the section.
- * @return The new space to save the information.
+ * @return The new address to save information.
  */
 static ENCRY_INFO *SaveEncryInfo(
     ENCRY_INFO *const buffer,
@@ -144,15 +144,15 @@ bool CanAppendNewSection(
 
     const DWORD section_align = image_info->nt_header->OptionalHeader.SectionAlignment;
 
-    // get the size of current headers
+    // Get the size of the current headers
     const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     const DWORD headers_virtual_size = Align(headers_size, section_align);
 
-    // calculate the new size of headers after appending a section
+    // Calculate the new size of headers after appending a section
     const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
     const DWORD new_headers_virtual_size = Align(new_headers_size, section_align);
 
-    // check the change of size after appending a section
+    // Check the change of size after appending a section
     return new_headers_virtual_size == headers_virtual_size;
 }
 
@@ -172,18 +172,18 @@ bool AppendNewSection(
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     assert(section_num > 0);
 
-    // set the section attribute
+    // Set the section attribute
     header->Characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA
         | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_EXECUTE;
 
-    // set the section name
+    // Set the section name
     if (name != NULL)
     {
         const size_t name_length = strnlen(name, IMAGE_SIZEOF_SHORT_NAME);
         CopyMemory(header->Name, name, name_length);
     }
 
-    // align the section size
+    // Align the section size
     const DWORD file_align = image_info->nt_header->OptionalHeader.FileAlignment;
     const DWORD section_align = image_info->nt_header->OptionalHeader.SectionAlignment;
 
@@ -193,19 +193,19 @@ bool AppendNewSection(
     header->SizeOfRawData = raw_size;
     header->Misc.VirtualSize = size;
 
-    // get the size of current headers
+    // Get the size of the current headers
     const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     const DWORD headers_raw_size = Align(headers_size, file_align);
 
-    // calculate the new size of headers after appending a section
+    // Calculate the new size of headers after appending a section
     const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
     const DWORD new_headers_raw_size = Align(new_headers_size, file_align);
 
-    // get the offset of headers
+    // Get the offset of headers
     assert(new_headers_raw_size >= headers_raw_size);
     const DWORD headers_raw_offset = new_headers_raw_size - headers_raw_size;
 
-    // set the address of the section
+    // Set the address of the section
     const IMAGE_SECTION_HEADER *const last_section_header =
         &image_info->section_header[section_num - 1];
     const DWORD last_section_end = last_section_header->PointerToRawData
@@ -214,9 +214,9 @@ bool AppendNewSection(
     header->VirtualAddress = image_info->image_size;
     header->PointerToRawData = last_section_end + headers_raw_offset;
 
-    /* adjust the PE_IMAGE_INFO structure */
+    /* Adjust the PE_IMAGE_INFO structure */
 
-    // allocate a new image
+    // Allocate a new image
     const DWORD new_image_size = image_info->image_size + virtual_size;
     BYTE *const new_image_base = (BYTE*)VirtualAlloc(NULL,
         new_image_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
@@ -226,7 +226,7 @@ bool AppendNewSection(
         return false;
     }
 
-    // move the image
+    // Move the image
     MoveMemory(new_image_base, image_info->image_base, image_info->image_size);
     VirtualFree(image_info->image_base, 0, MEM_RELEASE);
 
@@ -244,7 +244,7 @@ bool AppendNewSection(
 
     if (headers_raw_offset > 0)
     {
-        // adjust the address of sections
+        // Adjust the address of sections
         for (WORD i = 0; i != section_num; ++i)
         {
             image_info->section_header[i].PointerToRawData += headers_raw_offset;
@@ -389,11 +389,11 @@ DWORD EncryCallBack(
     DWORD min_size = CalcMinSize(image_info, header);
     if (min_size > 0)
     {
-        // encrypt the section
+        // Encrypt the section
         const DWORD rva = header->VirtualAddress;
         EncryptData(RvaToVa(image_info, rva), min_size);
 
-        // save the encryption information
+        // Save the encryption information
         ENCRY_INFO *buffer = *(ENCRY_INFO**)encry_info;
         *(ENCRY_INFO**)encry_info = SaveEncryInfo(buffer, rva, min_size);
         header->Characteristics |= IMAGE_SCN_MEM_WRITE;
@@ -408,7 +408,7 @@ bool IsEncryptable(
 {
     assert(header != NULL);
 
-    // the sections can be encrypted
+    // The sections can be encrypted
     static const CHAR *const names[] =
     {
         ".text", ".data", ".rdata", "CODE", "DATA"
