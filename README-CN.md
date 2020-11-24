@@ -69,7 +69,7 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 
 ### 构建
 
-```powershell
+```console
 > mkdir -p build
 > cd build
 > cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
@@ -78,7 +78,7 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 
 或直接执行`build.ps1`文件:
 
-```powershell
+```console
 > .\build.ps1
 ```
 
@@ -86,13 +86,13 @@ PE文件加壳前，使用一些反汇编工具可以自动分析其汇编代码
 
 对可执行文件加壳时，需要指定其*输入路径*和*输出路径*。
 
-```powershell
+```bash
 PE-Packer <input-file> <output-file>
 ```
 
 例如：
 
-```powershell
+```bash
 PE-Packer hello.exe hello-pack.exe
 ```
 

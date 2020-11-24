@@ -69,7 +69,7 @@ The project must configure on/for **Windows 32-bit** and can only process **32-b
 
 ### Building
 
-```powershell
+```console
 > mkdir -p build
 > cd build
 > cmake .. -D CMAKE_C_COMPILER=gcc -G "MinGW Makefiles"
@@ -78,7 +78,7 @@ The project must configure on/for **Windows 32-bit** and can only process **32-b
 
 Or run the `build.ps1` file directly:
 
-```powershell
+```console
 > .\build.ps1
 ```
 
@@ -86,13 +86,13 @@ Or run the `build.ps1` file directly:
 
 To pack a program, you must specify its *input name* and the *output name*.
 
-```powershell
+```bash
 PE-Packer <input-file> <output-file>
 ```
 
 For example:
 
-```powershell
+```bash
 PE-Packer hello.exe hello-pack.exe
 ```
 
