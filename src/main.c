@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 
     if (image_info.is_dll)
     {
-        wprintf(L" [!] ERROR: The program can not process a DLL file.\r\n");
+        wprintf(L" [!] ERROR: The program cannot process a DLL file.\r\n");
         goto _Exit;
     }
 
