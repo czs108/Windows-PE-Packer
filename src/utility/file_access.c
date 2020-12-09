@@ -108,7 +108,6 @@ bool IsFileSmallerThan2G(
 {
     assert(file != INVALID_HANDLE_VALUE);
 
-    DWORD size_high = 0;
-    GetFileSize(file, &size_high);
-    return size_high == 0;
+	DWORD size_low = GetFileSize(file, NULL);
+	return !(size_low & 0x80000000);
 }
