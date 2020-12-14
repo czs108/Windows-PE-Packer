@@ -154,14 +154,27 @@ boot_seg_begin_lbl  label   dword
     imp_table_end_lbl       label   dword
     ; --------------------------------------------------------------
 
+    ; The handle of the current process, just used in the boot segment.
+    process_handle_boot         dd      0
+
     load_seg_encry_info     SEG_ENCRY_INFO  <?>
 
     tls_table               IMAGE_TLS_DIRECTORY     <?>
+
+    get_current_process_name    db      'GetCurrentProcess', 0
+
+    ; The address of `GetCurrentProcess` API.
+    get_current_process_addr    dd      0
 
     virtual_alloc_name          db      'VirtualAlloc', 0
 
     ; The address of `VirtualAlloc` API, just used in the boot segment.
     virtual_alloc_addr_boot     dd      0
+
+    flush_instruction_cache_name        db      'FlushInstructionCache', 0
+
+    ; The address of `FlushInstructionCache` API, just used in the boot segment.
+    flush_instruction_cache_addr_boot   dd      0
 
     ; The base address of the load segment after decryption.
     load_seg_base               dd      0
@@ -172,6 +185,16 @@ _boot:
     ; `ebp` is the base address of the boot segment.
     sub     ebp, imp_table_begin_lbl - boot_seg_begin_lbl
 
+    ; Get the address of `GetCurrentProcess` API.
+    lea     esi, [ebp + (dll_name - boot_seg_begin_lbl)]
+    push    esi
+    call    dword ptr [ebp + (second_thunk - boot_seg_begin_lbl)]
+    lea     esi, [ebp + (get_current_process_name - boot_seg_begin_lbl)]
+    push    esi
+    push    eax
+    call    dword ptr [ebp + (first_thunk - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (get_current_process_addr - boot_seg_begin_lbl)], eax
+
     ; Get the address of `VirtualAlloc` API.
     lea     esi, [ebp + (dll_name - boot_seg_begin_lbl)]
     push    esi
@@ -181,6 +204,16 @@ _boot:
     push    eax
     call    dword ptr [ebp + (first_thunk - boot_seg_begin_lbl)]
     mov     dword ptr [ebp + (virtual_alloc_addr_boot - boot_seg_begin_lbl)], eax
+
+    ; Get the address of `FlushInstructionCache` API.
+    lea     esi, [ebp + (dll_name - boot_seg_begin_lbl)]
+    push    esi
+    call    dword ptr [ebp + (second_thunk - boot_seg_begin_lbl)]
+    lea     esi, [ebp + (flush_instruction_cache_name - boot_seg_begin_lbl)]
+    push    esi
+    push    eax
+    call    dword ptr [ebp + (first_thunk - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (flush_instruction_cache_addr_boot - boot_seg_begin_lbl)], eax
 
     ; Allocate memory for the load segment.
     push    PAGE_EXECUTE_READWRITE
@@ -217,6 +250,13 @@ _boot:
     add     edx, (_jmp_load_seg - boot_seg_begin_lbl) + sizeof(BYTE) * 5
     sub     eax, edx
     mov     dword ptr [ebp + (_jmp_load_seg - boot_seg_begin_lbl) + sizeof(BYTE)], eax
+
+    call    dword ptr [ebp + (get_current_process_addr - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (process_handle_boot - boot_seg_begin_lbl)], eax
+    push    0
+    push    NULL
+    push    eax
+    call    dword ptr [ebp + (flush_instruction_cache_addr_boot - boot_seg_begin_lbl)]
 
 _jmp_load_seg:
     ; Jump to the load segment.
@@ -259,10 +299,14 @@ _next:
     cld
     rep     movsd
 
+    mov     eax, dword ptr [edx + (process_handle_boot - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (process_handle - load_seg_begin_lbl)], eax
     lea     eax, [edx + (DecryptData - boot_seg_begin_lbl)]
     mov     dword ptr [ebp + (decrypt_data_addr - load_seg_begin_lbl)], eax
     mov     eax, dword ptr [edx + (virtual_alloc_addr_boot - boot_seg_begin_lbl)]
     mov     dword ptr [ebp + (virtual_alloc_addr - load_seg_begin_lbl)], eax
+    mov     eax, dword ptr [edx + (flush_instruction_cache_addr_boot - boot_seg_begin_lbl)]
+    mov     dword ptr [ebp + (flush_instruction_cache_addr - load_seg_begin_lbl)], eax
 
     ; Get the address of `VirtualProtect` API.
     lea     esi, [ebp + (kernel32_name - load_seg_begin_lbl)]
@@ -444,6 +488,13 @@ _next:
     assume  eax: ptr nothing
     add     eax, dword ptr [ebp + (module - load_seg_begin_lbl)]
     mov     dword ptr [ebp + (_ret_oep - load_seg_begin_lbl) + sizeof(BYTE)], eax
+
+    push    0
+    push    NULL
+    mov     eax, dword ptr [ebp + (process_handle - load_seg_begin_lbl)]
+    push    eax
+    call    dword ptr [ebp + (flush_instruction_cache_addr - load_seg_begin_lbl)]
+
     popad
 
 _ret_oep:
@@ -507,9 +558,13 @@ _ret_oep:
     get_module_handle_addr  dd      0
     load_library_addr       dd      0
 
-    virtual_alloc_addr      dd      0
-    virtual_protect_addr    dd      0
-    decrypt_data_addr       dd      0
+    flush_instruction_cache_addr    dd      0
+    virtual_alloc_addr              dd      0
+    virtual_protect_addr            dd      0
+    decrypt_data_addr               dd      0
+
+    ; The handle of the current process.
+    process_handle          dd      0
 
     ; The actual base address of the PE image after loading.
     module                  dd      0
