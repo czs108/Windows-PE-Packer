@@ -39,7 +39,7 @@ bool LoadPeImage(
     ZeroMemory(image_info, sizeof(PE_IMAGE_INFO));
     ZeroMemory(extra_data, sizeof(EXTRA_DATA_VIEW));
 
-    // Get the size of the PE image and allocate memory
+    // Get the size of the PE image and allocate memory.
     const IMAGE_NT_HEADERS *const nt_header = GetNtHeader(file_base);
     image_info->image_size = nt_header->OptionalHeader.SizeOfImage;
     image_info->image_base = (BYTE*)VirtualAlloc(NULL, image_info->image_size,
@@ -50,7 +50,7 @@ bool LoadPeImage(
         goto _Exit;
     }
 
-    // Copy PE headers
+    // Copy PE headers.
     DWORD dos_header_size = 0, nt_header_size = 0;
     const DWORD headers_size = CalcHeadersSize(file_base, &dos_header_size, &nt_header_size);
     CopyMemory(image_info->image_base, file_base, headers_size);
@@ -60,7 +60,7 @@ bool LoadPeImage(
 
     image_info->is_dll = image_info->nt_header->FileHeader.Characteristics & IMAGE_FILE_DLL;
 
-    // Map section data to memory
+    // Map section data to memory.
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     const IMAGE_SECTION_HEADER *const section_header = (IMAGE_SECTION_HEADER*)
         (file_base + dos_header_size + nt_header_size);
@@ -76,7 +76,7 @@ bool LoadPeImage(
         CopyMemory(dest, src, section_header[i].SizeOfRawData);
     }
 
-    // Save the thread-local storage table
+    // Save the thread-local storage table.
     const IMAGE_DATA_DIRECTORY *const tls_dir =
         &nt_header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS];
     if (tls_dir->VirtualAddress != 0 && tls_dir->Size > 0)
@@ -86,14 +86,14 @@ bool LoadPeImage(
         CopyMemory(&image_info->tls_table, tls_table, sizeof(IMAGE_TLS_DIRECTORY));
     }
 
-    // Save extra data
+    // Save extra data.
     const IMAGE_SECTION_HEADER *const last_section_header = &section_header[section_num - 1];
     const BYTE *const last_section_end = file_base
         + last_section_header->PointerToRawData + last_section_header->SizeOfRawData;
     extra_data->size = file_size - (last_section_end - file_base);
     if (extra_data->size > 0)
     {
-        // It's a read-only view
+        // It's a read-only view.
         extra_data->base = last_section_end;
     }
 
@@ -120,14 +120,14 @@ bool WriteImageToFile(
 
     bool success = false;
 
-    // Save PE headers
+    // Save PE headers.
     const DWORD header_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     if (WriteAllToFile(file, image_info->image_base, header_size) == false)
     {
         goto _Exit;
     }
 
-    // Save the data of all sections
+    // Save the data of all sections.
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     const IMAGE_SECTION_HEADER *const section_header = image_info->section_header;
     for (WORD i = 0; i != section_num; ++i)
@@ -140,8 +140,8 @@ bool WriteImageToFile(
         const DWORD rva = section_header[i].VirtualAddress;
         const BYTE *const data = RvaToVa(image_info, rva);
 
-        // Sometimes the SizeOfRawData is zero, but the section still has its space in the file
-        // So we must set the file pointer to the beginning of each section to write data
+        // Sometimes the SizeOfRawData is zero, but the section still has its space in the file.
+        // So we must set the file pointer to the beginning of each section to write data.
         SetFilePointer(file, section_header[i].PointerToRawData, NULL, FILE_BEGIN);
         if (WriteAllToFile(file, data, section_header[i].SizeOfRawData) == false)
         {
@@ -228,7 +228,7 @@ IMAGE_NT_HEADERS *GetNtHeader(
 {
     assert(file_base != NULL);
 
-    // Check the "MZ" field
+    // Check the "MZ" field.
     const IMAGE_DOS_HEADER *const dos_header = (IMAGE_DOS_HEADER*)file_base;
     if (dos_header->e_magic != IMAGE_DOS_SIGNATURE)
     {
@@ -247,14 +247,14 @@ DWORD CalcHeadersSize(
 {
     assert(file_base != NULL);
 
-    // Get the size of the IMAGE_DOS_HEADER structure
+    // Get the size of the `IMAGE_DOS_HEADER` structure.
     const DWORD _dos_header_size = ((IMAGE_DOS_HEADER*)file_base)->e_lfanew;
     if (dos_header_size != NULL)
     {
         *dos_header_size = _dos_header_size;
     }
 
-    // Get the size of the IMAGE_NT_HEADERS structure
+    // Get the size of the `IMAGE_NT_HEADERS` structure.
     const IMAGE_NT_HEADERS *const nt_header = GetNtHeader(file_base);
     const DWORD _nt_header_size = sizeof(DWORD) + sizeof(IMAGE_FILE_HEADER)
         + nt_header->FileHeader.SizeOfOptionalHeader;
@@ -263,7 +263,7 @@ DWORD CalcHeadersSize(
         *nt_header_size = _nt_header_size;
     }
 
-    // Get the size of all IMAGE_SECTION_HEADER structures
+    // Get the size of all `IMAGE_SECTION_HEADER` structures.
     const WORD section_num = nt_header->FileHeader.NumberOfSections;
     const DWORD section_header_size = section_num * sizeof(IMAGE_SECTION_HEADER);
 

@@ -111,7 +111,7 @@ bool InstallShell(
     const WORD section_num = nt_header->FileHeader.NumberOfSections;
     IMAGE_SECTION_HEADER *const shell_section_header = &image_info->section_header[section_num - 1];
 
-    // Calculate the size of the entire shell
+    // Calculate the size of the entire shell.
     const DWORD shell_size = CalcShellSize(new_imp_table_size);
     BYTE *const shell_base = (BYTE*)VirtualAlloc(NULL, shell_size,
         MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
@@ -121,24 +121,24 @@ bool InstallShell(
         return false;
     }
 
-    // Copy the boot segment
+    // Copy the boot segment.
     DWORD boot_seg_size = 0;
     DWORD boot_seg_offset = 0;
     const BYTE *const boot_seg_begin = GetBootSegment(&boot_seg_offset, &boot_seg_size);
     BYTE *const boot_seg_base = shell_base + boot_seg_offset;
     CopyMemory(boot_seg_base, boot_seg_begin, boot_seg_size);
 
-    // Copy the load segment
+    // Copy the load segment.
     DWORD load_seg_size = 0;
     DWORD load_seg_offset = 0;
     const BYTE *const load_seg_begin = GetLoadSegment(&load_seg_offset, &load_seg_size);
     BYTE *const load_seg_base = shell_base + load_seg_offset;
     CopyMemory(load_seg_base, load_seg_begin, load_seg_size);
 
-    // Copy the transformed import table
+    // Copy the transformed import table.
     CopyMemory(load_seg_base + load_seg_size, new_imp_table, new_imp_table_size);
 
-    // Set the values of the fields used by the shell
+    // Set the values of the fields used by the shell.
     ORIGIN_PE_INFO *const pe_info = GetOriginPeInfo(shell_base);
     ZeroMemory(pe_info, sizeof(ORIGIN_PE_INFO));
     pe_info->entry_point = nt_header->OptionalHeader.AddressOfEntryPoint;
@@ -147,7 +147,7 @@ bool InstallShell(
         OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
     pe_info->image_base = (void*)nt_header->OptionalHeader.ImageBase;
 
-    // Copy the thread-local storage table
+    // Copy the thread-local storage table.
     IMAGE_DATA_DIRECTORY *const tls_dir = &nt_header->
         OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS];
     if (tls_dir->VirtualAddress != 0 && tls_dir->Size > 0)
@@ -160,25 +160,25 @@ bool InstallShell(
         tls_dir->Size = sizeof(IMAGE_TLS_DIRECTORY);
     }
 
-    // Copy the encryption information of sections
+    // Copy the encryption information of sections.
     assert(encry_count <= MAX_ENCRY_SECTION_COUNT);
 
     CopyMemory(pe_info->section_encry_info,
         encry_info, encry_count * sizeof(ENCRY_INFO));
     ZeroMemory(pe_info->section_encry_info + encry_count, sizeof(ENCRY_INFO));
 
-    // Encrypt the load segment and transformed import table
+    // Encrypt the load segment and transformed import table.
     EncryptData(load_seg_base, load_seg_size + new_imp_table_size);
 
-    // Save the encryption information of the segment and import table
+    // Save the encryption information of the segment and import table.
     SEG_ENCRY_INFO *const seg_encry_info = GetLoadSegmentEncryInfo(shell_base);
     seg_encry_info->seg_offset = load_seg_offset;
     seg_encry_info->seg_size = load_seg_size + new_imp_table_size;
 
-    // Adjust the import table of the shell
+    // Adjust the import table of the shell.
     AdjustShellImpTable(shell_base, shell_section_header);
 
-    // Install the shell to the section
+    // Install the shell to the section.
     CopyMemory(image_info->image_base + shell_section_header->VirtualAddress,
         shell_base, shell_size);
 
@@ -188,11 +188,11 @@ bool InstallShell(
     shell_section_header->SizeOfRawData = Align(shell_size, file_align);
     shell_section_header->Misc.VirtualSize = Align(shell_size, section_align);
 
-    // Change the entry point to the shell
+    // Change the entry point to the shell.
     nt_header->OptionalHeader.AddressOfEntryPoint = shell_section_header->VirtualAddress;
     nt_header->OptionalHeader.CheckSum = 0;
 
-    // Change the import table directory to the shell
+    // Change the import table directory to the shell.
     DWORD imp_table_offset = 0;
     DWORD imp_table_size = 0;
     GetShellImpTable(&imp_table_offset, &imp_table_size);
@@ -289,7 +289,7 @@ SEG_ENCRY_INFO *GetLoadSegmentEncryInfo(
 {
     assert(shell_base != NULL);
 
-    // Relocation
+    // Relocation.
     DWORD seg_offset = 0;
     const BYTE *const seg_begin = GetBootSegment(&seg_offset, NULL);
     const BYTE *const seg_base = shell_base + seg_offset;
@@ -303,7 +303,7 @@ ORIGIN_PE_INFO *GetOriginPeInfo(
 {
     assert(shell_base != NULL);
 
-    // Relocation
+    // Relocation.
     DWORD seg_offset = 0;
     const BYTE *const seg_begin = GetLoadSegment(&seg_offset, NULL);
     const BYTE *const seg_base = shell_base + seg_offset;
@@ -318,7 +318,7 @@ IMAGE_TLS_DIRECTORY *GetShellTlsTable(
 {
     assert(shell_base != NULL);
 
-    // Relocation
+    // Relocation.
     DWORD seg_offset = 0;
     const BYTE *const seg_begin = GetBootSegment(&seg_offset, NULL);
     const BYTE *const seg_base = shell_base + seg_offset;

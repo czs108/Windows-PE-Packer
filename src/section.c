@@ -144,15 +144,15 @@ bool CanAppendNewSection(
 
     const DWORD section_align = image_info->nt_header->OptionalHeader.SectionAlignment;
 
-    // Get the size of the current headers
+    // Get the size of the current headers.
     const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     const DWORD headers_virtual_size = Align(headers_size, section_align);
 
-    // Calculate the new size of headers after appending a section
+    // Calculate the new size of headers after appending a section.
     const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
     const DWORD new_headers_virtual_size = Align(new_headers_size, section_align);
 
-    // Check the change of size after appending a section
+    // Check the change of size after appending a section.
     return new_headers_virtual_size == headers_virtual_size;
 }
 
@@ -172,18 +172,18 @@ bool AppendNewSection(
     const WORD section_num = image_info->nt_header->FileHeader.NumberOfSections;
     assert(section_num > 0);
 
-    // Set the section attribute
+    // Set the section attribute.
     header->Characteristics = IMAGE_SCN_CNT_INITIALIZED_DATA
         | IMAGE_SCN_MEM_WRITE | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_EXECUTE;
 
-    // Set the section name
+    // Set the section name.
     if (name != NULL)
     {
         const size_t name_length = strnlen(name, IMAGE_SIZEOF_SHORT_NAME);
         CopyMemory(header->Name, name, name_length);
     }
 
-    // Align the section size
+    // Align the section size.
     const DWORD file_align = image_info->nt_header->OptionalHeader.FileAlignment;
     const DWORD section_align = image_info->nt_header->OptionalHeader.SectionAlignment;
 
@@ -193,19 +193,19 @@ bool AppendNewSection(
     header->SizeOfRawData = raw_size;
     header->Misc.VirtualSize = size;
 
-    // Get the size of the current headers
+    // Get the size of the current headers.
     const DWORD headers_size = CalcHeadersSize(image_info->image_base, NULL, NULL);
     const DWORD headers_raw_size = Align(headers_size, file_align);
 
-    // Calculate the new size of headers after appending a section
+    // Calculate the new size of headers after appending a section.
     const DWORD new_headers_size = headers_size + sizeof(IMAGE_SECTION_HEADER);
     const DWORD new_headers_raw_size = Align(new_headers_size, file_align);
 
-    // Get the offset of headers
+    // Get the offset of headers.
     assert(new_headers_raw_size >= headers_raw_size);
     const DWORD headers_raw_offset = new_headers_raw_size - headers_raw_size;
 
-    // Set the address of the section
+    // Set the address of the section.
     const IMAGE_SECTION_HEADER *const last_section_header =
         &image_info->section_header[section_num - 1];
     const DWORD last_section_end = last_section_header->PointerToRawData
@@ -214,9 +214,9 @@ bool AppendNewSection(
     header->VirtualAddress = image_info->image_size;
     header->PointerToRawData = last_section_end + headers_raw_offset;
 
-    /* Adjust the PE_IMAGE_INFO structure */
+    /* Adjust the `PE_IMAGE_INFO` structure. */
 
-    // Allocate a new image
+    // Allocate a new image.
     const DWORD new_image_size = image_info->image_size + virtual_size;
     BYTE *const new_image_base = (BYTE*)VirtualAlloc(NULL,
         new_image_size, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
@@ -226,7 +226,7 @@ bool AppendNewSection(
         return false;
     }
 
-    // Move the image
+    // Move the image.
     MoveMemory(new_image_base, image_info->image_base, image_info->image_size);
     VirtualFree(image_info->image_base, 0, MEM_RELEASE);
 
@@ -244,7 +244,7 @@ bool AppendNewSection(
 
     if (headers_raw_offset > 0)
     {
-        // Adjust the address of sections
+        // Adjust the address of sections.
         for (WORD i = 0; i != section_num; ++i)
         {
             image_info->section_header[i].PointerToRawData += headers_raw_offset;
@@ -389,11 +389,11 @@ DWORD EncryCallBack(
     DWORD min_size = CalcMinSize(image_info, header);
     if (min_size > 0)
     {
-        // Encrypt the section
+        // Encrypt the section.
         const DWORD rva = header->VirtualAddress;
         EncryptData(RvaToVa(image_info, rva), min_size);
 
-        // Save the encryption information
+        // Save the encryption information.
         ENCRY_INFO *buffer = *(ENCRY_INFO**)encry_info;
         *(ENCRY_INFO**)encry_info = SaveEncryInfo(buffer, rva, min_size);
         header->Characteristics |= IMAGE_SCN_MEM_WRITE;
@@ -408,7 +408,7 @@ bool IsEncryptable(
 {
     assert(header != NULL);
 
-    // The sections can be encrypted
+    // The sections can be encrypted.
     static const CHAR *const names[] =
     {
         ".text", ".data", ".rdata", "CODE", "DATA"
