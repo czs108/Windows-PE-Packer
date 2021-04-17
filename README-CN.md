@@ -1,5 +1,9 @@
 # PE-Packer
 
+![C](docs/badges/C-11-brightgreen.svg)
+![ASM](docs/badges/Microsoft-ASM-brightgreen.svg)
+[![License](docs/badges/License-GPL-3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
+
 ## 翻译
 
 - [English](https://github.com/czs108/PE-Packer/blob/master/README.md)
