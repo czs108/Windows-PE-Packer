@@ -1,18 +1,18 @@
 /**
  * @file new_import_table.h
  * @brief The Doxygen page about the new format of the import table.
- * 
+ *
  * @author Chen Zhenshuo (chenzs108@outlook.com)
  * @version 1.0
  * @date 2020-01-10
  * @par GitHub
- * https://github.com/czs108/
+ * https://github.com/czs108
  */
 
 /**
  * @page new-import-table The New Format of the Import Table
  * @brief The new format of the import table, constructed by `TransformImpTab()` method.
- * 
+ *
     <table border="1" align="center" cellspacing="5" cellpadding="5">
         <caption>The New Format of the Import Table</caption>
         <tr>

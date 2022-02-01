@@ -1,19 +1,19 @@
 enable_language(ASM_MASM)
 
-add_library(shell "")
+add_library(shell)
 
 target_compile_definitions(shell PRIVATE -D_UNICODE -DUNICODE)
 
-set(HEADER_PATH "${CMAKE_SOURCE_DIR}/include/shell")
+set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include/shell)
 
 target_include_directories(shell PUBLIC ${HEADER_PATH})
 
 target_sources(shell
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/install_shell.c
-        ${CMAKE_CURRENT_LIST_DIR}/entry_export.h
     PUBLIC
         ${HEADER_PATH}/install_shell.h
+    PRIVATE
+        install_shell.c
+        entry_export.h
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -21,7 +21,7 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 else()
     target_sources(shell
         PRIVATE
-            ${CMAKE_CURRENT_LIST_DIR}/entry_x86.asm
+            entry_x86.asm
     )
 
     set_source_files_properties(entry_x86.asm PROPERTIES COMPILE_FLAGS "/c /coff")

@@ -1,11 +1,11 @@
 ; @file entry_x86.asm
 ; @brief The entry code of the shell.
-; 
+;
 ; @author Chen Zhenshuo (chenzs108@outlook.com)
 ; @version 1.0
 ; @date 2020-01-07
 ; @par GitHub
-; https://github.com/czs108/
+; https://github.com/czs108
 
 ; @note This implementation is for x86 platforms.
 
