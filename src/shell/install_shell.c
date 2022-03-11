@@ -23,7 +23,7 @@
  * @param[out] size     The size. It's optional.
  * @return The beginning of the segment template.
  */
-static BYTE* GetShellImpTable(DWORD* const offset, DWORD* const size);
+static BYTE* GetShellImpTable(DWORD* offset, DWORD* size);
 
 
 /**
@@ -33,8 +33,8 @@ static BYTE* GetShellImpTable(DWORD* const offset, DWORD* const size);
  * @param shell_section
  * The @p IMAGE_SECTION_HEADER structure of the section where the shell is installed.
  */
-static void AdjustShellImpTable(
-    BYTE* const shell_base, const IMAGE_SECTION_HEADER* const shell_section);
+static void AdjustShellImpTable(BYTE* shell_base,
+                                const IMAGE_SECTION_HEADER* shell_section);
 
 
 /**
@@ -44,7 +44,7 @@ static void AdjustShellImpTable(
  * @param[out] size     The size. It's optional.
  * @return The beginning of the segment template.
  */
-static BYTE* GetBootSegment(DWORD* const offset, DWORD* const size);
+static BYTE* GetBootSegment(DWORD* offset, DWORD* size);
 
 
 /**
@@ -54,7 +54,7 @@ static BYTE* GetBootSegment(DWORD* const offset, DWORD* const size);
  * @param[out] size     The size. It's optional.
  * @return The beginning of the segment template.
  */
-static BYTE* GetLoadSegment(DWORD* const offset, DWORD* const size);
+static BYTE* GetLoadSegment(DWORD* offset, DWORD* size);
 
 
 /**
@@ -63,7 +63,7 @@ static BYTE* GetLoadSegment(DWORD* const offset, DWORD* const size);
  * @param shell_base    The base address of the shell.
  * @return The encryption information.
  */
-static SEG_ENCRY_INFO* GetLoadSegmentEncryInfo(const BYTE* const shell_base);
+static SEG_ENCRY_INFO* GetLoadSegmentEncryInfo(const BYTE* shell_base);
 
 
 /**
@@ -72,7 +72,7 @@ static SEG_ENCRY_INFO* GetLoadSegmentEncryInfo(const BYTE* const shell_base);
  * @param shell_base    The base address of the shell.
  * @return The original PE information.
  */
-static ORIGIN_PE_INFO* GetOriginPeInfo(const BYTE* const shell_base);
+static ORIGIN_PE_INFO* GetOriginPeInfo(const BYTE* shell_base);
 
 
 /**
@@ -82,8 +82,8 @@ static ORIGIN_PE_INFO* GetOriginPeInfo(const BYTE* const shell_base);
  * @param[out] offset   The offset, relative to the shell. It's optional.
  * @return The thread-local storage table.
  */
-static IMAGE_TLS_DIRECTORY* GetShellTlsTable(const BYTE* const shell_base,
-                                             DWORD* const offset);
+static IMAGE_TLS_DIRECTORY* GetShellTlsTable(const BYTE* shell_base,
+                                             DWORD* offset);
 
 
 bool InstallShell(const PE_IMAGE_INFO* const image_info,

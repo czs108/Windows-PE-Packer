@@ -35,7 +35,7 @@ typedef struct _ENCRY_INFO {
  * @param image_info    The PE image.
  * @return @p true or @p false.
  */
-bool CanAppendNewSection(const PE_IMAGE_INFO* const image_info);
+bool CanAppendNewSection(const PE_IMAGE_INFO* image_info);
 
 
 /**
@@ -47,8 +47,8 @@ bool CanAppendNewSection(const PE_IMAGE_INFO* const image_info);
  * @param[out] header   The @p IMAGE_SECTION_HEADER structure of the new section.
  * @return @p true if the method succeeds, otherwise @p false.
  */
-bool AppendNewSection(PE_IMAGE_INFO* const image_info, const CHAR* const name,
-                      const DWORD size, IMAGE_SECTION_HEADER* const header);
+bool AppendNewSection(PE_IMAGE_INFO* image_info, const CHAR* name, DWORD size,
+                      IMAGE_SECTION_HEADER* header);
 
 
 /**
@@ -57,7 +57,7 @@ bool AppendNewSection(PE_IMAGE_INFO* const image_info, const CHAR* const name,
  * @param image_info    The PE image.
  * @return The number of sections that can be encrypted.
  */
-WORD GetEncryptableSectionNumber(const PE_IMAGE_INFO* const image_info);
+WORD GetEncryptableSectionNumber(const PE_IMAGE_INFO* image_info);
 
 
 /**
@@ -70,8 +70,7 @@ WORD GetEncryptableSectionNumber(const PE_IMAGE_INFO* const image_info);
  * Set this to @p NULL to get the required length.
  * @return The number of sections can be encrypted.
  */
-WORD EncryptSections(const PE_IMAGE_INFO* const image_info,
-                     ENCRY_INFO* const encry_info);
+WORD EncryptSections(const PE_IMAGE_INFO* image_info, ENCRY_INFO* encry_info);
 
 
 /**
@@ -79,4 +78,4 @@ WORD EncryptSections(const PE_IMAGE_INFO* const image_info,
  *
  * @param image_info    The PE image.
  */
-void ClearSectionNames(const PE_IMAGE_INFO* const image_info);
+void ClearSectionNames(const PE_IMAGE_INFO* image_info);

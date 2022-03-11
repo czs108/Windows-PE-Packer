@@ -24,9 +24,9 @@
  *
  * @see EnumImpTable()
  */
-typedef DWORD (*LPFN_ENUM_IMP_CALLBACK)(
-    const PE_IMAGE_INFO* const image_info,
-    IMAGE_IMPORT_DESCRIPTOR* const descriptor, void* const arg);
+typedef DWORD (*LPFN_ENUM_IMP_CALLBACK)(const PE_IMAGE_INFO* image_info,
+                                        IMAGE_IMPORT_DESCRIPTOR* descriptor,
+                                        void* arg);
 
 
 /******************************************************************************/
@@ -43,9 +43,8 @@ typedef DWORD (*LPFN_ENUM_IMP_CALLBACK)(
  * @param[in, out] size The required size.
  * @return Useless.
  */
-static DWORD CalcSizeCallBack(const PE_IMAGE_INFO* const image_info,
-                              IMAGE_IMPORT_DESCRIPTOR* const descriptor,
-                              void* const size);
+static DWORD CalcSizeCallBack(const PE_IMAGE_INFO* image_info,
+                              IMAGE_IMPORT_DESCRIPTOR* descriptor, void* size);
 
 
 /**
@@ -58,9 +57,8 @@ static DWORD CalcSizeCallBack(const PE_IMAGE_INFO* const image_info,
  * @param arg           Useless.
  * @return Useless.
  */
-static DWORD ClearCallBack(const PE_IMAGE_INFO* const image_info,
-                           IMAGE_IMPORT_DESCRIPTOR* const descriptor,
-                           void* const arg);
+static DWORD ClearCallBack(const PE_IMAGE_INFO* image_info,
+                           IMAGE_IMPORT_DESCRIPTOR* descriptor, void* arg);
 
 
 /**
@@ -73,9 +71,9 @@ static DWORD ClearCallBack(const PE_IMAGE_INFO* const image_info,
  * @param[in, out] new_table    The space where the new table will be constructed.
  * @return Useless.
  */
-static DWORD TransformCallBack(const PE_IMAGE_INFO* const image_info,
-                               IMAGE_IMPORT_DESCRIPTOR* const descriptor,
-                               void* const new_table);
+static DWORD TransformCallBack(const PE_IMAGE_INFO* image_info,
+                               IMAGE_IMPORT_DESCRIPTOR* descriptor,
+                               void* new_table);
 
 /******************************************************************************/
 
@@ -88,9 +86,8 @@ static DWORD TransformCallBack(const PE_IMAGE_INFO* const image_info,
  * it will be called on each @p IMAGE_IMPORT_DESCRIPTOR structure.
  * @param arg           An optional custom argument, it will be passed to @p callback.
  */
-static void EnumImpTable(const PE_IMAGE_INFO* const image_info,
-                         const LPFN_ENUM_IMP_CALLBACK callback,
-                         void* const arg);
+static void EnumImpTable(const PE_IMAGE_INFO* image_info,
+                         LPFN_ENUM_IMP_CALLBACK callback, void* arg);
 
 
 DWORD CalcNewImpTableSize(const PE_IMAGE_INFO* const image_info) {

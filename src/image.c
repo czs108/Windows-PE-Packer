@@ -21,7 +21,7 @@
  * @param file_base The base address of the file content.
  * @return The base address of the @p IMAGE_NT_HEADERS structure, @p NULL if it is not a PE file.
  */
-static IMAGE_NT_HEADERS* GetNtHeader(const BYTE* const file_base);
+static IMAGE_NT_HEADERS* GetNtHeader(const BYTE* file_base);
 
 
 bool LoadPeImage(const BYTE* const file_base, const DWORD file_size,

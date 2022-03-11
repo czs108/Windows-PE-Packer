@@ -56,9 +56,8 @@ typedef struct _PE_IMAGE_INFO {
  * @note The constructor of @p _PE_IMAGE_INFO structure.
  * @note The constructor of @p _EXTRA_DATA_VIEW structure.
  */
-bool LoadPeImage(const BYTE* const file_base, const DWORD file_size,
-                 PE_IMAGE_INFO* const image_info,
-                 EXTRA_DATA_VIEW* const extra_data);
+bool LoadPeImage(const BYTE* file_base, DWORD file_size,
+                 PE_IMAGE_INFO* image_info, EXTRA_DATA_VIEW* extra_data);
 
 
 /**
@@ -68,7 +67,7 @@ bool LoadPeImage(const BYTE* const file_base, const DWORD file_size,
  *
  * @note The destructor of @p _PE_IMAGE_INFO structure.
  */
-void FreePeImage(const PE_IMAGE_INFO* const image_info);
+void FreePeImage(const PE_IMAGE_INFO* image_info);
 
 
 /**
@@ -78,7 +77,7 @@ void FreePeImage(const PE_IMAGE_INFO* const image_info);
  * @param file          The file.
  * @return @p true if the method succeeded, otherwise @p false.
  */
-bool WriteImageToFile(const PE_IMAGE_INFO* const image_info, const HANDLE file);
+bool WriteImageToFile(const PE_IMAGE_INFO* image_info, HANDLE file);
 
 
 /**
@@ -88,7 +87,7 @@ bool WriteImageToFile(const PE_IMAGE_INFO* const image_info, const HANDLE file);
  * @param rva           A relative virtual address.
  * @return The virtual address.
  */
-BYTE* RvaToVa(const PE_IMAGE_INFO* const image_info, const DWORD rva);
+BYTE* RvaToVa(const PE_IMAGE_INFO* image_info, DWORD rva);
 
 
 /**
@@ -97,7 +96,7 @@ BYTE* RvaToVa(const PE_IMAGE_INFO* const image_info, const DWORD rva);
  * @param image_info    The PE image.
  * @return @p true if the image is a x64 file, otherwise @p false.
  */
-bool IsPe64(const PE_IMAGE_INFO* const image_info);
+bool IsPe64(const PE_IMAGE_INFO* image_info);
 
 
 /**
@@ -107,7 +106,7 @@ bool IsPe64(const PE_IMAGE_INFO* const image_info);
  * @param align     A value of alignment.
  * @return The value after alignment.
  */
-DWORD Align(const DWORD value, const DWORD align);
+DWORD Align(DWORD value, DWORD align);
 
 
 /**
@@ -116,7 +115,7 @@ DWORD Align(const DWORD value, const DWORD align);
  * @param file_base The base address of the file content.
  * @return @p true if the file is a PE file, otherwise @p false.
  */
-bool IsPeFile(const BYTE* const file_base);
+bool IsPeFile(const BYTE* file_base);
 
 
 /**
@@ -129,5 +128,5 @@ bool IsPeFile(const BYTE* const file_base);
  * @param[out] nt_header_size   The size of the @p IMAGE_NT_HEADERS structure. It's optional.
  * @return The size of PE headers.
  */
-DWORD CalcHeadersSize(const BYTE* const file_base, DWORD* const dos_header_size,
-                      DWORD* const nt_header_size);
+DWORD CalcHeadersSize(const BYTE* file_base, DWORD* dos_header_size,
+                      DWORD* nt_header_size);

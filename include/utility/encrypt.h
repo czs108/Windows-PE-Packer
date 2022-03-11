@@ -19,4 +19,4 @@
  * @param base  The base address of the data.
  * @param size  The size of the data.
  */
-void EncryptData(BYTE* const base, const DWORD size);
+void EncryptData(BYTE* base, DWORD size);

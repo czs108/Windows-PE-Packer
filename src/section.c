@@ -26,9 +26,9 @@
  *
  * @see EnumSection()
  */
-typedef DWORD (*LPFN_ENUM_SECTION_CALLBACK)(
-    const PE_IMAGE_INFO* const image_info, IMAGE_SECTION_HEADER* const header,
-    void* const arg);
+typedef DWORD (*LPFN_ENUM_SECTION_CALLBACK)(const PE_IMAGE_INFO* image_info,
+                                            IMAGE_SECTION_HEADER* header,
+                                            void* arg);
 
 
 /******************************************************************************/
@@ -45,9 +45,8 @@ typedef DWORD (*LPFN_ENUM_SECTION_CALLBACK)(
  * @param arg           Useless.
  * @return Useless.
  */
-static DWORD ClearNameCallBack(const PE_IMAGE_INFO* const image_info,
-                               IMAGE_SECTION_HEADER* const header,
-                               void* const arg);
+static DWORD ClearNameCallBack(const PE_IMAGE_INFO* image_info,
+                               IMAGE_SECTION_HEADER* header, void* arg);
 
 
 /**
@@ -60,9 +59,9 @@ static DWORD ClearNameCallBack(const PE_IMAGE_INFO* const image_info,
  * @param[in, out] count    The number of sections that can be encrypted.
  * @return Useless.
  */
-static DWORD CheckEncryptableCallBack(const PE_IMAGE_INFO* const image_info,
-                                      IMAGE_SECTION_HEADER* const header,
-                                      void* const count);
+static DWORD CheckEncryptableCallBack(const PE_IMAGE_INFO* image_info,
+                                      IMAGE_SECTION_HEADER* header,
+                                      void* count);
 
 
 /**
@@ -75,9 +74,8 @@ static DWORD CheckEncryptableCallBack(const PE_IMAGE_INFO* const image_info,
  * @param[in, out] encry_info   The space where the encryption information will be saved.
  * @return Useless.
  */
-static DWORD EncryCallBack(const PE_IMAGE_INFO* const image_info,
-                           IMAGE_SECTION_HEADER* const header,
-                           void* const encry_info);
+static DWORD EncryCallBack(const PE_IMAGE_INFO* image_info,
+                           IMAGE_SECTION_HEADER* header, void* encry_info);
 
 /******************************************************************************/
 
@@ -90,9 +88,8 @@ static DWORD EncryCallBack(const PE_IMAGE_INFO* const image_info,
  * it will be called on each @p IMAGE_SECTION_HEADER structure.
  * @param arg           An optional custom argument, it will be passed to @p callback.
  */
-static void EnumSections(const PE_IMAGE_INFO* const image_info,
-                         const LPFN_ENUM_SECTION_CALLBACK callback,
-                         void* const arg);
+static void EnumSections(const PE_IMAGE_INFO* image_info,
+                         LPFN_ENUM_SECTION_CALLBACK callback, void* arg);
 
 
 /**
@@ -101,7 +98,7 @@ static void EnumSections(const PE_IMAGE_INFO* const image_info,
  * @param header    The @p IMAGE_SECTION_HEADER structure.
  * @return @p true if the section can be encrypted, otherwise @p false.
  */
-static bool IsEncryptable(const IMAGE_SECTION_HEADER* const header);
+static bool IsEncryptable(const IMAGE_SECTION_HEADER* header);
 
 
 /**
@@ -111,8 +108,8 @@ static bool IsEncryptable(const IMAGE_SECTION_HEADER* const header);
  * @param header        The @p IMAGE_SECTION_HEADER structure.
  * @return The minimum size of the section.
  */
-static DWORD CalcMinSize(const PE_IMAGE_INFO* const image_info,
-                         const IMAGE_SECTION_HEADER* const header);
+static DWORD CalcMinSize(const PE_IMAGE_INFO* image_info,
+                         const IMAGE_SECTION_HEADER* header);
 
 
 /**
@@ -123,8 +120,7 @@ static DWORD CalcMinSize(const PE_IMAGE_INFO* const image_info,
  * @param size      The size of the section.
  * @return The new address to save information.
  */
-static ENCRY_INFO* SaveEncryInfo(ENCRY_INFO* const buffer, const DWORD rva,
-                                 const DWORD size);
+static ENCRY_INFO* SaveEncryInfo(ENCRY_INFO* buffer, DWORD rva, DWORD size);
 
 
 bool CanAppendNewSection(const PE_IMAGE_INFO* const image_info) {

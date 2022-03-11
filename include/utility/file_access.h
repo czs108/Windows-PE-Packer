@@ -39,8 +39,7 @@ typedef struct _FILE_VIEW {
  * @param size  The size of the data.
  * @return @p true if the method succeeds, otherwise @p false.
  */
-bool WriteAllToFile(const HANDLE file, const BYTE* const data,
-                    const DWORD size);
+bool WriteAllToFile(HANDLE file, const BYTE* data, DWORD size);
 
 
 /**
@@ -52,7 +51,7 @@ bool WriteAllToFile(const HANDLE file, const BYTE* const data,
  *
  * @note The constructor of @p _FILE_VIEW structure.
  */
-bool OpenReadViewOfFile(const HANDLE file, FILE_VIEW* const file_view);
+bool OpenReadViewOfFile(HANDLE file, FILE_VIEW* file_view);
 
 
 /**
@@ -62,7 +61,7 @@ bool OpenReadViewOfFile(const HANDLE file, FILE_VIEW* const file_view);
  *
  * @note The destructor of @p _FILE_VIEW structure.
  */
-void CloseViewOfFile(const FILE_VIEW* const file_view);
+void CloseViewOfFile(const FILE_VIEW* file_view);
 
 
 /**
@@ -73,4 +72,4 @@ void CloseViewOfFile(const FILE_VIEW* const file_view);
  *
  * @warning The program can only process files smaller than 2GB.
  */
-bool IsFileSmallerThan2G(const HANDLE file);
+bool IsFileSmallerThan2G(HANDLE file);

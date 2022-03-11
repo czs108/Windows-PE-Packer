@@ -26,7 +26,7 @@
  * @param new_imp_table_size    The size of the transformed import table.
  * @return The size of the shell.
  */
-DWORD CalcShellSize(const DWORD new_imp_table_size);
+DWORD CalcShellSize(DWORD new_imp_table_size);
 
 
 /**
@@ -41,7 +41,6 @@ DWORD CalcShellSize(const DWORD new_imp_table_size);
  *
  * @see @ref entry-code-of-shell
  */
-bool InstallShell(const PE_IMAGE_INFO* const image_info,
-                  const BYTE* const new_imp_table,
-                  const DWORD new_imp_table_size,
-                  const ENCRY_INFO* const encry_info, const DWORD encry_count);
+bool InstallShell(const PE_IMAGE_INFO* image_info, const BYTE* new_imp_table,
+                  DWORD new_imp_table_size, const ENCRY_INFO* encry_info,
+                  DWORD encry_count);
