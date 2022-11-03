@@ -1,4 +1,4 @@
-# PE-Packer
+# Windows PE Packer
 
 ![C](docs/badges/C-17.svg)
 ![MASM](docs/badges/MASM-8.svg)
@@ -9,8 +9,8 @@
 
 ## 翻译
 
-- [English](https://github.com/czs108/PE-Packer/blob/master/README.md)
-- [简体中文](https://github.com/czs108/PE-Packer/blob/master/README-CN.md)
+- [English](https://github.com/czs108/Windows-PE-Packer/blob/master/README.md)
+- [简体中文](https://github.com/czs108/Windows-PE-Packer/blob/master/README-CN.md)
 
 ## 简介
 

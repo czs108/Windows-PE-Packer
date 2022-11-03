@@ -10,7 +10,7 @@
  */
 
 /**
- * @mainpage PE-Packer
+ * @mainpage Windows PE Packer
  *
  * @section about-the-project About The Project
  *
