@@ -1,4 +1,4 @@
-# Set the Property of the .ASM File in Visual Studio
+# Set the Property of Assembly Files in *Visual Studio*
 
 The entry code of the shell is written in Microsoft Assembly Language in `.asm` files.
 

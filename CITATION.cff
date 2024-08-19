@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+authors:
+- family-names: Chen
+  given-names: Zhenshuo
+  orcid: https://orcid.org/0000-0003-2091-4160
+title: Windows PE Packer
+date-released: 2020-12-14
+url: https://github.com/czs108/Windows-PE-Packer

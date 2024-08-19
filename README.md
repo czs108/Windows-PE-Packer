@@ -1,18 +1,17 @@
-# Windows PE Packer
+# *Windows* *PE* Packer
 
 ![C](docs/badges/C-17.svg)
 ![MASM](docs/badges/MASM-8.svg)
 [![CMake](docs/badges/Made-with-CMake.svg)](https://cmake.org)
 [![Windows](docs/badges/Microsoft-Windows.svg)](https://www.microsoft.com/en-ie/windows)
-[![License](docs/badges/License-GPL-3.0.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![DOI](https://zenodo.org/badge/231357933.svg)](https://zenodo.org/badge/latestdoi/231357933)
+![License](docs/badges/License-MIT.svg)
 
 ## Languages
 
 - [English](https://github.com/czs108/Windows-PE-Packer/blob/master/README.md)
 - [简体中文](https://github.com/czs108/Windows-PE-Packer/blob/master/README-CN.md)
 
-## About The Project
+## Introduction
 
 ![test-helloworld](docs/screenshots/test-helloworld.png)
 
@@ -109,33 +108,9 @@ You can use [*Doxygen*](http://www.doxygen.nl) to generate the document.
 
 ## References
 
-[*《加密与解密（第3版）》段钢*](https://book.douban.com/subject/3091212)
-
-[*PE Format - Windows Dev Center*](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format)
+- [*《加密与解密（第3版）》段钢*](https://book.douban.com/subject/3091212)
+- [*PE Format - Windows Dev Center*](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format)
 
 ## License
 
-Distributed under the *GNU General Public License*. See `LICENSE` for more information.
-
-## Citing
-
-```tex
-@software{chenzs108_2021_4698355,
-  author       = {Chen Zhenshuo},
-  title        = {czs108/PE-Packer: v1.0.0-beta},
-  month        = apr,
-  year         = 2021,
-  publisher    = {Zenodo},
-  version      = {v1.0.0-beta},
-  doi          = {10.5281/zenodo.4698355},
-  url          = {https://doi.org/10.5281/zenodo.4698355}
-}
-```
-
-## Contact
-
-***GitHub***: https://github.com/czs108
-
-***E-Mail***: chenzs108@outlook.com
-
-***WeChat***: chenzs108
+Distributed under the *MIT License*. See `LICENSE` for more information.
