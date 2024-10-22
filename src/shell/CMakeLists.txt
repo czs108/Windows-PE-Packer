@@ -1,14 +1,23 @@
 enable_language(ASM_MASM)
 
-add_library(shell)
+set(LIB_NAME shell)
 
-target_compile_definitions(shell PRIVATE -D_UNICODE -DUNICODE)
+add_library(${LIB_NAME})
 
-set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include/shell)
+target_compile_definitions(${LIB_NAME}
+    PRIVATE
+        "-D_UNICODE"
+        "-DUNICODE"
+)
 
-target_include_directories(shell PUBLIC ${HEADER_PATH})
+set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include/${LIB_NAME})
 
-target_sources(shell
+target_include_directories(${LIB_NAME}
+    PUBLIC
+        ${HEADER_PATH}
+)
+
+target_sources(${LIB_NAME}
     PUBLIC
         ${HEADER_PATH}/install_shell.h
     PRIVATE
@@ -19,11 +28,14 @@ target_sources(shell
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     message(FATAL_ERROR "[!] Must configuring on/for x86 platform")
 else()
-    target_sources(shell
+    target_sources(${LIB_NAME}
         PRIVATE
             entry_x86.asm
     )
 
-    set_source_files_properties(entry_x86.asm PROPERTIES COMPILE_FLAGS "/c /coff")
-    set_source_files_properties(entry_x86.asm PROPERTIES LINKER_FLAGS "/SAFESEH:NO")
+    set_source_files_properties(entry_x86.asm
+        PROPERTIES
+            COMPILE_FLAGS "/c /coff"
+            LINKER_FLAGS "/SAFESEH:NO"
+    )
 endif()

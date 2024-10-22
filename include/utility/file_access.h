@@ -15,9 +15,8 @@
 
 #include <stdbool.h>
 
-/**
- * @brief The view of a file.
- */
+
+//! @brief The view of a file.
 typedef struct _FILE_VIEW {
     //! The file-mapping returned by @p CreateFileMapping API.
     HANDLE map;

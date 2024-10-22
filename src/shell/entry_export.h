@@ -24,9 +24,7 @@
 #define MAX_ENCRY_SECTION_COUNT 0x40
 
 
-/**
- * @brief The encryption information of a segment of the shell.
- */
+//! The encryption information of a segment of the shell.
 typedef struct _SEG_ENCRY_INFO {
     //! The offset, relative to the shell.
     DWORD seg_offset;
@@ -37,9 +35,7 @@ typedef struct _SEG_ENCRY_INFO {
 } SEG_ENCRY_INFO;
 
 
-/**
- * @brief The original PE information.
- */
+//! The original PE information.
 typedef struct _ORIGIN_PE_INFO {
     //! The offset, relative to the shell.
     DWORD entry_point;

@@ -35,9 +35,7 @@ DWORD GetLastErrorCode();
 void SetLastErrorCode();
 
 
-/**
- * @brief Reset the last-error code to @p ERROR_SUCCESS.
- */
+//! Reset the last-error code to @p ERROR_SUCCESS.
 void ResetLastErrorCode();
 
 

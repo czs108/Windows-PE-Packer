@@ -1,12 +1,21 @@
-add_library(utility)
+set(LIB_NAME utility)
 
-target_compile_definitions(utility PRIVATE -D_UNICODE -DUNICODE)
+add_library(${LIB_NAME})
 
-set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include/utility)
+target_compile_definitions(${LIB_NAME}
+    PRIVATE
+        "-D_UNICODE"
+        "-DUNICODE"
+)
 
-target_include_directories(utility PUBLIC ${HEADER_PATH})
+set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include/${LIB_NAME})
 
-target_sources(utility
+target_include_directories(${LIB_NAME}
+    PUBLIC
+        ${HEADER_PATH}
+)
+
+target_sources(${LIB_NAME}
     PUBLIC
         ${HEADER_PATH}/error_handling.h
         ${HEADER_PATH}/file_access.h
@@ -19,12 +28,12 @@ target_sources(utility
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    target_sources(utility
+    target_sources(${LIB_NAME}
         PRIVATE
             platform_check_x64.c
     )
 else()
-    target_sources(utility
+    target_sources(${LIB_NAME}
         PRIVATE
             platform_check_x86.c
     )

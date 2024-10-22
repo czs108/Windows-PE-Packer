@@ -104,9 +104,9 @@ DecryptData         proto   src: dword, dest: dword, count: dword
 ; @param virtual_protect_addr   The address of `VirtualProtect` API.
 ; @param module                 The PE image.
 ; @param new_protect
-; The base address of a DWORD array, saving the new protection of each section.
+; The base address of a `DWORD` array, saving the new protection of each section.
 ; @param[out] old_protect
-; The base address of a DWORD array, saving the old protection of each section.
+; The base address of a `DWORD` array, saving the old protection of each section.
 SetSectionProtect   proto   virtual_protect_addr: dword, module: dword, new_protect: dword, old_protect: dword
 
 

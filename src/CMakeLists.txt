@@ -1,15 +1,19 @@
-add_subdirectory(utility)
-add_subdirectory(shell)
+add_executable(${CMAKE_PROJECT_NAME})
 
-add_executable(PE-Packer)
-
-target_compile_definitions(PE-Packer PRIVATE -D_UNICODE -DUNICODE)
+target_compile_definitions(${CMAKE_PROJECT_NAME}
+    PRIVATE
+        "-D_UNICODE"
+        "-DUNICODE"
+)
 
 set(HEADER_PATH ${PROJECT_SOURCE_DIR}/include)
 
-target_include_directories(PE-Packer PRIVATE ${HEADER_PATH})
+target_include_directories(${CMAKE_PROJECT_NAME}
+    PRIVATE
+        ${HEADER_PATH}
+)
 
-target_sources(PE-Packer
+target_sources(${CMAKE_PROJECT_NAME}
     PRIVATE
         main.c
         extra_data.c
@@ -22,5 +26,11 @@ target_sources(PE-Packer
         ${HEADER_PATH}/section.h
 )
 
-target_link_libraries(PE-Packer PRIVATE utility)
-target_link_libraries(PE-Packer PRIVATE shell)
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    PRIVATE
+        utility
+        shell
+)
+
+add_subdirectory(utility)
+add_subdirectory(shell)

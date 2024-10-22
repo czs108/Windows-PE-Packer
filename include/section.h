@@ -16,9 +16,8 @@
 
 #include <windows.h>
 
-/**
- * @brief The encryption information of a section.
- */
+
+//! The encryption information of a section.
 typedef struct _ENCRY_INFO {
     //! The relative virtual address of the section.
     DWORD rva;
